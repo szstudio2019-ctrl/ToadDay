@@ -45,12 +45,17 @@ export default function App() {
         const hero = heroImgRef.current;
         if (hero) {
           const rect = hero.parentElement.getBoundingClientRect();
-          hero.style.transform = `translateY(${rect.top * 0.3}px)`;
+          const buffer = rect.height * 0.15; // image is oversized by 15% top/bottom
+          const offset = Math.max(-buffer, Math.min(buffer, rect.top * 0.3));
+          hero.style.transform = `translateY(${offset}px)`;
         }
         const banner = bannerImgRef.current;
         if (banner) {
           const rect = banner.parentElement.getBoundingClientRect();
-          banner.style.transform = `translateY(${(rect.top / window.innerHeight) * 40}px)`;
+          const buffer = rect.height * 0.3; // image is oversized by 30% top/bottom
+          const raw = (rect.top / window.innerHeight) * 40;
+          const offset = Math.max(-buffer, Math.min(buffer, raw));
+          banner.style.transform = `translateY(${offset}px)`;
         }
         ticking = false;
       });
