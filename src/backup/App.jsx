@@ -269,8 +269,8 @@ export default function App() {
 
       {/* ── VOTE ── */}
       <div id="vote-section" style={{ position:"relative", height: fluid(500, 688), overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        <video src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
-          style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Bufo_bufo_Luc_Viatour.jpg/1280px-Bufo_bufo_Luc_Viatour.jpg"
+          alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.45)", zIndex:1 }} />
         <div style={{ position:"relative", zIndex:2, display:"flex", flexDirection:"column", alignItems:"center", gap: fluid(32, 64), padding: "0 24px" }}>
           <h2 style={{ fontWeight:900, fontSize: fluid(36, 72), lineHeight:"1.1", color:"#fff", textAlign:"center", margin:0 }}>Together We'll Make History!</h2>
@@ -371,22 +371,22 @@ export default function App() {
 
       {/* ── REPORT BANNER ── */}
       <div style={{ padding: `${fluid(24, 39)} ${fluid(16, 36)}`, background:"#f0f0f0" }}>
-        <div style={{ position:"relative", height: fluid(380, 520), borderRadius:24, overflow:"hidden", background:"#1a4a1a" }}>
-          <video src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
-            style={{ position:"absolute", left:0, right:0, top:"-30%", width:"100%", height:"160%", objectFit:"cover", zIndex:0, willChange:"transform" }}
+        <div style={{ position:"relative", height: fluid(280, 320), borderRadius:24, overflow:"hidden", background:"#1a4a1a" }}>
+          <img src="https://i.imgur.com/etgzLZ8.jpeg"
+            alt="" style={{ position:"absolute", left:0, right:0, top:"-30%", width:"100%", height:"160%", objectFit:"cover", zIndex:0, willChange:"transform" }}
             ref={bannerImgRef}
           />
 
           {/* Left: text */}
-          <div style={{ position:"absolute", left:0, top:0, width: layout(660, "58%"), height:"100%", background:"rgba(0,110,28,0.55)", backdropFilter:"blur(6px)", borderRadius: layout("20px 0 0 20px", "0"), zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-end", padding: `${fluid(20, 40)} ${fluid(16, 56)}`, gap:20 }}>
-            <h2 style={{ fontWeight:900, fontSize: fluid(22, 44), lineHeight:"1.1", color:"#fff", textAlign:"left", margin:0, width:"100%" }}>Found an interesting amphibian?<br/>Snap a photo and report it on our site!</h2>
+          <div style={{ position:"absolute", left:0, top:0, width: layout(559, "55%"), height:"100%", background:"rgba(0,110,28,0.55)", backdropFilter:"blur(6px)", borderRadius: layout("20px 0 0 20px", "0"), zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-end", padding: `${fluid(16, 24)} ${fluid(12, 40)}`, gap:16 }}>
+            <h2 style={{ fontWeight:900, fontSize: fluid(20, 40), lineHeight:"1.1", color:"#fff", textAlign:"left", margin:0, width:"100%" }}>Found an interesting amphibian?<br/>Snap a photo and report it on our site!</h2>
             <p style={{ fontWeight:700, fontSize: 18, lineHeight:"1.5", color:"#fff", textAlign:"left", margin:0, opacity:0.85, width:"100%" }}>Protecting Israel's reptiles and amphibians together.<br/>Every report helps us better understand the state of nature in Israel.</p>
           </div>
 
           {/* Right: buttons */}
-          <div style={{ position:"absolute", right:0, top:0, width: layout(320, "42%"), height:"100%", zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"stretch", padding: `${fluid(20, 32)} ${fluid(16, 48)}`, gap:20 }}>
-            <button style={{ background:"#94F990", border:"none", borderRadius:9999, padding: `${fluid(14, 22)} ${fluid(16, 32)}`, fontFamily:ff, fontWeight:900, fontSize: fluid(14, 20), color:"#002204", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.1)" }}>I'm Voting</button>
-            <button onClick={() => document.getElementById('vote-section').scrollIntoView({behavior:'smooth'})} style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.2)", backdropFilter:"blur(6px)", borderRadius:9999, padding: `${fluid(14, 20)} ${fluid(16, 32)}`, fontFamily:ff, fontWeight:700, fontSize: fluid(14, 18), color:"#fff", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center" }}>Report a Sighting</button>
+          <div style={{ position:"absolute", right:0, top:0, width: layout(260, "45%"), height:"100%", zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-start", padding: `${fluid(16, 24)} ${fluid(12, 40)}`, gap:16 }}>
+            <button style={{ background:"#94F990", border:"none", borderRadius:9999, padding: `${fluid(12, 20)} ${fluid(16, 40)}`, fontFamily:ff, fontWeight:900, fontSize: fluid(13, 20), color:"#002204", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.1)" }}>I'm Voting</button>
+            <button onClick={() => document.getElementById('vote-section').scrollIntoView({behavior:'smooth'})} style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.2)", backdropFilter:"blur(6px)", borderRadius:9999, padding: `${fluid(12, 18)} ${fluid(16, 40)}`, fontFamily:ff, fontWeight:700, fontSize: fluid(13, 18), color:"#fff", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center" }}>Report a Sighting</button>
           </div>
         </div>
       </div>
