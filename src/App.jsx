@@ -11,7 +11,7 @@ const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 
 const kidsSlides = [
-  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 1.4 },
+  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 1.8 },
   // coloring-page-en.png has built-in white margin around the artwork (unlike GNDyrR4.png,
   // which bleeds to the edges), so objectFit:"cover" alone can't fill the frame with it.
   // zoom scales the image up inside its overflow:hidden card to crop that margin away.
@@ -258,7 +258,7 @@ export default function App() {
   // continuously with scroll while the centered fact and its orbit dot
   // advance in six discrete steps.
   useEffect(() => {
-    if (!isDesktop || !factsScrollRef.current) return;
+    if (!factsScrollRef.current) return;
     const trigger = ScrollTrigger.create({
       trigger: factsScrollRef.current,
       start: "top top",
@@ -380,8 +380,8 @@ export default function App() {
       </div>
 
       {/* ── HERO ── */}
-      <div style={{ position: "relative", minHeight: fluid(680, 920), display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <video autoPlay muted loop playsInline preload="auto" src="/hiro.mp4"
+      <div style={{ position: "relative", minHeight: fluid(680, 1080), display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <video autoPlay muted loop playsInline preload="auto" src="/toad_hiro.mp4"
           style={{ position: "absolute", left: 0, right: 0, top: "-15%", width: "100%", height: "130%", objectFit: "cover", zIndex: 0, willChange: "transform" }}
           ref={heroImgRef}
         />
@@ -390,8 +390,8 @@ export default function App() {
           <div ref={heroBadgeRef} style={{ marginBottom: 20 }}>
             <span style={{ display: "inline-flex", alignItems: "center", padding: `${fluid(6, 8)} ${fluid(16, 24)}`, background: "rgba(76,175,80,0.2)", border: "1.66px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", borderRadius: 9999, fontWeight: 700, fontSize: fluid(13, 16), letterSpacing: 2, color: "#94F990" }}>Observed annually · May 15</span>
           </div>
-          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
-          <p ref={heroPRef} style={{ fontWeight: 700, fontSize: 19, lineHeight: "1.5", color: "#fff", textAlign: "left", textShadow: "0 4px 12px rgba(0,0,0,0.3)", margin: "0 0 32px", maxWidth: layout(580, "100%") }}>A global day dedicated to toads, their ecological importance and the protection of their habitats.</p>
+          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(36, 60), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
+          <p ref={heroPRef} style={{ fontWeight: 700, fontSize: fluid(20, 24), lineHeight: "1.5", color: "#fff", textAlign: "left", textShadow: "0 4px 12px rgba(0,0,0,0.3)", margin: "0 0 32px", maxWidth: layout(580, "100%") }}>A global day dedicated to toads, their ecological importance and the protection of their habitats.</p>
           <div ref={heroBtnsRef} style={{ display: "flex", flexWrap: "wrap", gap: fluid(12, 16) }}>
             <MagButton onClick={() => storySectionRef.current?.scrollIntoView({behavior:'smooth'})}
               style={{ display: "inline-flex", alignItems: "center", gap: 10, background: G.btn, color: "#fff", border: "none", borderRadius: 9999, padding: `${fluid(14, 18)} ${fluid(28, 44)}`, fontFamily: ff, fontWeight: 700, fontSize: fluid(16, 20), cursor: "pointer", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.15)" }}>
@@ -426,7 +426,7 @@ export default function App() {
               </div>
               {/* bottom-left: toad video */}
               <div {...bioVideoParallax} style={{ borderRadius: 20, overflow: "hidden" }}>
-                <video ref={bioVideoRef} src="/comp1.mp4" autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <video ref={bioVideoRef} src="/toad-development-clip.mp4" autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               {/* bottom-right: dark green card with icon */}
               <div style={{ background: "#006E1C", borderRadius: 20, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -461,7 +461,7 @@ export default function App() {
             <source src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" type="video/mp4" />
           </video>
           <div style={{ position: "relative", zIndex: 2, width: "33%", minWidth: 320, marginLeft: fluid(24, 64), boxSizing: "border-box", padding: fluid(24, 40), display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", gap: 16, background: "rgba(0,90,24,0.4)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
-            <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%" }}>Why does the toad need its<br />own day?</h2>
+            <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%" }}>Why does the toad need its{isDesktop && <br />} own day?</h2>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>For years, toads have been cast in the shadow of frogs. Frogs and toads belong to the same biological order, Anura, but they often represent very different ways of life.</p>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Toads typically evolved thicker, more water-resistant skin, powerful chemical defenses and a greater ability to survive away from water. In many ways, they represent a tougher, more terrestrial path within amphibian evolution.</p>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>The toad is not "just another frog." It is a fascinating, resilient creature and an important ecological partner. Toads consume many insects and other invertebrates, while species around the world face increasing pressure from habitat destruction, climate change, disease and pollution.</p>
@@ -479,75 +479,49 @@ export default function App() {
 
       {/* ── FACTS + HOW TO HELP ── */}
       <div id="facts" style={{ background:"#F6FFF5" }}>
-        {isDesktop ? (
-          <div ref={factsScrollRef} style={{ position: "relative", width: "100%", height: `${factItems.length * 60}vh` }}>
-            <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <video src="/Cycles.mp4" autoPlay muted loop playsInline
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
-              <div style={{ position: "absolute", inset: 0, background: "rgba(0,40,10,0.25)", zIndex: 0 }} />
-
-              <div style={{ position: "relative", zIndex: 1, width: "100%", padding: `0 ${fluid(24, 48)}`, boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", gap: 32 }}>
-                <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, width: "100%", maxWidth: 900, textAlign: "center", alignSelf: "center" }}>
-                  <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Must-Know Facts</div>
-                  <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#fff", textAlign:"center", margin:0, width:"100%", whiteSpace:"nowrap", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know About the Toad</h2>
-                  <p style={{ fontWeight:500, fontSize: 19, lineHeight:"24px", color:"#fff", textAlign:"center", margin:0, whiteSpace:"nowrap", textShadow:"0 2px 8px rgba(0,0,0,0.3)" }}>Turns out they're so much more than we thought. Meet the superhero of the garden.</p>
-                </div>
-                <div style={{ position: "relative", width: fluid(320, 460), height: fluid(320, 460), alignSelf: "center", flexShrink: 0 }}>
-                  <svg viewBox="0 0 300 300" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "rotate(-90deg)" }}>
-                    <circle cx="150" cy="150" r={FACTS_RING_RADIUS} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="14" />
-                    <circle ref={factsRingRef} cx="150" cy="150" r={FACTS_RING_RADIUS} fill="none" stroke="#4ADE80" strokeWidth="14" strokeLinecap="round"
-                      strokeDasharray={FACTS_RING_CIRCUMFERENCE} strokeDashoffset={FACTS_RING_CIRCUMFERENCE} />
-                  </svg>
-
-                  {factItems.map((it, i) => {
-                    const angle = (i * (360 / factItems.length) - 90) * (Math.PI / 180);
-                    const dotLeft = 50 + 43.3 * Math.cos(angle);
-                    const dotTop = 50 + 43.3 * Math.sin(angle);
-                    return (
-                      <div key={it.title} style={{ position: "absolute", left: `${dotLeft}%`, top: `${dotTop}%`, transform: "translate(-50%, -50%)", width: 16, height: 16, borderRadius: 9999, background: i <= factsRevealed ? "#4ADE80" : "rgba(255,255,255,0.35)", border: "2px solid rgba(0,60,15,0.7)", boxShadow: i <= factsRevealed ? "0 0 10px rgba(74,222,128,0.7)" : "none", transition: "background 0.3s ease, box-shadow 0.3s ease", zIndex: 3 }} />
-                    );
-                  })}
-
-                  <div style={{ position: "absolute", inset: "13%", borderRadius: "50%", overflow: "hidden", background: "rgba(0,90,24,0.55)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.22)", boxShadow: "0 15px 30px -10px rgba(0,0,0,0.4)" }}>
-                    {factItems.map((it, i) => (
-                      <div key={it.title} style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, padding: "18%", boxSizing: "border-box", textAlign: "center", opacity: i === factsRevealed ? 1 : 0, transition: "opacity 0.5s ease" }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 9999, background: "rgba(255,255,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#4ADE80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        </div>
-                        <div style={{ fontWeight: 700, fontSize: 19, lineHeight: "24px", color: "#fff" }}>{it.title}</div>
-                        <div style={{ fontWeight: 400, fontSize: 15, lineHeight: "19px", color: "rgba(255,255,255,0.85)" }}>{it.text}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div style={{ position: "relative", padding: `${fluid(60, 128)} 0`, overflow: "hidden" }}>
-            <video src="/Cycles.mp4" autoPlay muted loop playsInline
+        <div ref={factsScrollRef} style={{ position: "relative", width: "100%", height: `${factItems.length * 60}vh` }}>
+          <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+            <video src="/cycle-video.mp4" autoPlay muted loop playsInline
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
             <div style={{ position: "absolute", inset: 0, background: "rgba(0,40,10,0.25)", zIndex: 0 }} />
-            <div style={{ position: "relative", zIndex: 1, width: "100%", padding: `0 ${fluid(24, 48)}`, boxSizing: "border-box", display:"flex", flexDirection:"column", gap:40 }}>
-              <div data-reveal style={{ display:"flex", flexDirection:"column", alignItems:"flex-start", gap:12, width:"100%", textAlign:"left" }}>
+
+            <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1200, margin: "0 auto", padding: `0 ${fluid(24, 48)}`, boxSizing: "border-box", display: "flex", flexDirection: layout("row", "column"), alignItems: "center", justifyContent: "space-between", gap: fluid(32, 64) }}>
+              <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: layout("flex-start", "center"), gap: 12, maxWidth: layout(440, "100%"), textAlign: layout("left", "center") }}>
                 <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Must-Know Facts</div>
-                <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#fff", textAlign:"left", margin:0, width:"100%", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know<br />About the Toad</h2>
-                <p style={{ fontWeight:500, fontSize: 19, lineHeight:"24px", color:"#fff", textAlign:"left", margin:0, width:"100%", textShadow:"0 2px 8px rgba(0,0,0,0.3)" }}>Turns out they're so much more than we thought. Meet the superhero of the garden.</p>
+                <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#fff", textAlign: layout("left","center"), margin:0, width:"100%", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know About the Toad</h2>
+                <p style={{ fontWeight:500, fontSize: 19, lineHeight:"24px", color:"#fff", textAlign: layout("left","center"), margin:0, textShadow:"0 2px 8px rgba(0,0,0,0.3)" }}>Turns out they're so much more than we thought. Meet the superhero of the garden.</p>
               </div>
-              <div data-reveal-group style={{ display:"grid", gridTemplateColumns: "1fr", gap:20, width:"100%" }}>
-                {factItems.map((it) => (
-                  <div key={it.title} {...cardHover} style={{ display:"flex", flexDirection:"column", alignItems:"center", textAlign:"center", gap:12, background:"rgba(0,90,24,0.45)", backdropFilter:"blur(12px)", WebkitBackdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.22)", borderRadius:20, padding:24, boxShadow:"0 15px 30px -12px rgba(0,0,0,0.3)" }}>
-                    <div style={{ width:40, height:40, borderRadius:9999, background:"rgba(255,255,255,0.2)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div style={{ position: "relative", width: fluid(320, 460), height: fluid(320, 460), flexShrink: 0 }}>
+                <svg viewBox="0 0 300 300" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "rotate(-90deg)" }}>
+                  <circle cx="150" cy="150" r={FACTS_RING_RADIUS} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="14" />
+                  <circle ref={factsRingRef} cx="150" cy="150" r={FACTS_RING_RADIUS} fill="none" stroke="#4ADE80" strokeWidth="14" strokeLinecap="round"
+                    strokeDasharray={FACTS_RING_CIRCUMFERENCE} strokeDashoffset={FACTS_RING_CIRCUMFERENCE} />
+                </svg>
+
+                {factItems.map((it, i) => {
+                  const angle = (i * (360 / factItems.length) - 90) * (Math.PI / 180);
+                  const dotLeft = 50 + 43.3 * Math.cos(angle);
+                  const dotTop = 50 + 43.3 * Math.sin(angle);
+                  return (
+                    <div key={it.title} style={{ position: "absolute", left: `${dotLeft}%`, top: `${dotTop}%`, transform: "translate(-50%, -50%)", width: 16, height: 16, borderRadius: 9999, background: i <= factsRevealed ? "#4ADE80" : "rgba(255,255,255,0.35)", border: "2px solid rgba(0,60,15,0.7)", boxShadow: i <= factsRevealed ? "0 0 10px rgba(74,222,128,0.7)" : "none", transition: "background 0.3s ease, box-shadow 0.3s ease", zIndex: 3 }} />
+                  );
+                })}
+
+                <div style={{ position: "absolute", inset: "13%", borderRadius: "50%", overflow: "hidden", background: "rgba(0,90,24,0.55)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.22)", boxShadow: "0 15px 30px -10px rgba(0,0,0,0.4)" }}>
+                  {factItems.map((it, i) => (
+                    <div key={it.title} style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, padding: "18%", boxSizing: "border-box", textAlign: "center", opacity: i === factsRevealed ? 1 : 0, transition: "opacity 0.5s ease" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 9999, background: "rgba(255,255,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#4ADE80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: 19, lineHeight: "24px", color: "#fff" }}>{it.title}</div>
+                      <div style={{ fontWeight: 400, fontSize: 15, lineHeight: "19px", color: "rgba(255,255,255,0.85)" }}>{it.text}</div>
                     </div>
-                    <div style={{ fontWeight:700, fontSize:20, lineHeight:"28px", color:"#fff", textAlign:"center", width:"100%" }}>{it.title}</div>
-                    <div style={{ fontWeight:400, fontSize: 19, lineHeight:"24px", color:"rgba(255,255,255,0.85)", textAlign:"center", width:"100%" }}>{it.text}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* ── VS ── */}
@@ -585,14 +559,12 @@ export default function App() {
                   </div>
                 </div>
 
-                <div data-reveal-scale style={{ position: "relative", width: "100%", height: 560, margin: "0 auto" }}>
+                <div data-reveal-scale style={{ position: "relative", width: "100%", height: 660, margin: "0 auto" }}>
                   {/* VS text */}
                   <div style={{ position:"absolute", left:"50%", top:0, transform:"translateX(-50%)", fontWeight:900, fontSize:388, lineHeight:"432px", background:"linear-gradient(180deg,#C4FEC2 31.86%,#E2FEE0 47.33%,#fff 73.48%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", zIndex:0, userSelect:"none", whiteSpace:"nowrap" }}>VS</div>
                   {/* frogs video */}
-                  <video src="/magnific_subtle-slow-motion.-the-t_IfaxexJtvE.mp4" autoPlay muted loop playsInline
-                    style={{ position:"absolute", left:0, top:45, width:"100%", height:515, objectFit:"cover", zIndex:1, mixBlendMode:"multiply", borderRadius:16,
-                      maskImage: "radial-gradient(ellipse 50% 50% at center, #000 78%, transparent 100%)",
-                      WebkitMaskImage: "radial-gradient(ellipse 50% 50% at center, #000 78%, transparent 100%)" }} />
+                  <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
+                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", zIndex:1, borderRadius:16 }} />
                 </div>
               </div>
             </div>
@@ -649,7 +621,7 @@ export default function App() {
       </div>
 
       {/* ── KIDS ACTIVITY ── */}
-      <div id="kids" style={{ position:"relative", background:"#F6FFF5", padding: `${fluid(60, 128)} ${fluid(24, 32)} ${fluid(90, 160)}`, display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
+      <div id="kids" style={{ position:"relative", zIndex:2, background:"#F6FFF5", padding: `${fluid(60, 128)} ${fluid(24, 32)} ${fluid(90, 160)}`, display:"flex", justifyContent:"center", alignItems:"center", overflow:"visible" }}>
         <div style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"center", gap: fluid(40, 111), width:"100%", maxWidth:1152, minHeight: isDesktop ? fluid(420, 560) : "auto" }}>
           <div data-reveal style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", gap:24, flex:1, width:"100%", alignSelf:"stretch" }}>
             <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", alignSelf:"flex-start" }}>For Children and Educators</div>
@@ -657,7 +629,7 @@ export default function App() {
             <p style={{ fontWeight:400, fontSize: 19, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>Download, print and use these activities to introduce children to toads and their habitats.</p>
             {isDesktop && (
               <video autoPlay muted loop playsInline preload="auto"
-                style={{ position:"absolute", left: 0, top: "100%", marginTop: -240, height: fluid(260, 340), width: "auto", zIndex: 5, transform: "scaleX(-1)", pointerEvents:"none" }}>
+                style={{ position:"absolute", left: 0, top: "100%", marginTop: -40, height: fluid(400, 520), width: "auto", zIndex: 5, transform: "scaleX(-1)", pointerEvents:"none" }}>
                 <source src="/toad_jump_alpha.webm" type="video/webm" />
                 <source src="/toad_jump_compressed.mp4" type="video/mp4" />
               </video>
@@ -667,7 +639,7 @@ export default function App() {
             <div style={{ width:"100%", aspectRatio:"1 / 1", position:"relative" }}>
               {kidsSlides.map((s, i) => (
                 <div key={i} style={{ position:"absolute", inset:0, opacity: slide===i ? 1 : 0, transition:"opacity 0.4s", pointerEvents: slide===i ? "auto" : "none" }}>
-                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-4deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative" }}>
+                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-8deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative" }}>
                     <img src={s.img} alt={s.alt} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transform: `scale(${s.zoom || 1})`, transformOrigin:"center" }} />
                     <a href={s.file} download style={{ position:"absolute", bottom:16, right:16, width:48, height:48, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.2)" }}>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -699,36 +671,39 @@ export default function App() {
       </div>
 
       {/* ── FOOTER ── */}
-      <div id="site-footer" style={{ background:"#fff", padding: `${fluid(32, 48)} ${fluid(24, 48)}`, display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap:16 }}>
-        <div style={{ display:"flex", flexDirection:"row", gap:24, alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
-          <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer"
-            style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#3F4A3C", textDecoration:"none", cursor:"pointer" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-            Instagram
-          </a>
-          <a href="mailto:zisraelreptiles@gmail.com"
-            style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#3F4A3C", textDecoration:"none", cursor:"pointer" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#15803D" strokeWidth="2"/><path d="M3 6.5L12 13L21 6.5" stroke="#15803D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            zisraelreptiles@gmail.com
-          </a>
-        </div>
-        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15" rx="8" ry="6" stroke="#166534" strokeWidth="1.6"/><circle cx="8" cy="8" r="2.3" stroke="#166534" strokeWidth="1.6"/><circle cx="16" cy="8" r="2.3" stroke="#166534" strokeWidth="1.6"/><circle cx="8" cy="8" r="0.7" fill="#166534"/><circle cx="16" cy="8" r="0.7" fill="#166534"/></svg>
-          <span style={{ fontWeight:700, fontSize: 19, color:"#166534" }}>International Toad Day</span>
-        </div>
-        <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap", justifyContent: layout("flex-end", "center") }}>
-          <span style={{ fontWeight:700, fontSize: 17, color:"#3F4A3C" }}>© israelreptiles. All rights reserved.</span>
-          <a href="https://www.israelreptiles.co.il" target="_blank" rel="noopener noreferrer"
-            style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#3F4A3C", textDecoration:"none", cursor:"pointer" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" strokeWidth="1.8"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" stroke="currentColor" strokeWidth="1.8"/></svg>
-            www.israelreptiles.co.il
-          </a>
-          <a href="https://www.facebook.com/reptilesofisrael" target="_blank" rel="noopener noreferrer"
-            style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#3F4A3C", textDecoration:"none", cursor:"pointer" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14V7c0-1 .3-1.5 1.8-1.5H18V2h-2.7C12 2 11 3.6 11 6.3v3.2H9v4h2V22h3z"/></svg>
-            Facebook
-          </a>
-          <img src="/logo.png" alt="Reptiles of Israel" style={{ width:36, height:36, objectFit:"contain", flexShrink:0 }} />
+      <div id="site-footer" style={{ position:"relative", height: isDesktop ? fluid(280, 340) : 380, overflow:"hidden", maxWidth:1920, margin:"0 auto", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
+        <div style={{ position:"absolute", inset:0, backgroundImage: "url(/bg_FOOTER2.jpg)", backgroundSize: "cover", backgroundPosition: "center", zIndex:0 }} />
+        <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1720, borderRadius:24, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.22)", boxShadow:"0 15px 30px -10px rgba(0,0,0,0.4)", padding: `${fluid(24, 32)} ${fluid(24, 40)}`, boxSizing:"border-box", display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap:16 }}>
+          <div style={{ display:"flex", flexDirection:"row", gap:24, alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
+            <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer"
+              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              Instagram
+            </a>
+            <a href="mailto:zisraelreptiles@gmail.com"
+              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#fff" strokeWidth="2"/><path d="M3 6.5L12 13L21 6.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              zisraelreptiles@gmail.com
+            </a>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15" rx="8" ry="6" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="16" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="0.7" fill="#fff"/><circle cx="16" cy="8" r="0.7" fill="#fff"/></svg>
+            <span style={{ fontWeight:700, fontSize: 19, color:"#fff" }}>International Toad Day</span>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap", justifyContent: layout("flex-end", "center") }}>
+            <span style={{ fontWeight:700, fontSize: 17, color:"#fff" }}>© israelreptiles. All rights reserved.</span>
+            <a href="https://www.israelreptiles.co.il" target="_blank" rel="noopener noreferrer"
+              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" strokeWidth="1.8"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" stroke="currentColor" strokeWidth="1.8"/></svg>
+              www.israelreptiles.co.il
+            </a>
+            <a href="https://www.facebook.com/reptilesofisrael" target="_blank" rel="noopener noreferrer"
+              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14V7c0-1 .3-1.5 1.8-1.5H18V2h-2.7C12 2 11 3.6 11 6.3v3.2H9v4h2V22h3z"/></svg>
+              Facebook
+            </a>
+            <img src="/logo.png" alt="Reptiles of Israel" style={{ width:36, height:36, objectFit:"contain", flexShrink:0 }} />
+          </div>
         </div>
       </div>
 
