@@ -390,7 +390,7 @@ export default function App() {
           <div ref={heroBadgeRef} style={{ marginBottom: 20 }}>
             <span style={{ display: "inline-flex", alignItems: "center", padding: `${fluid(6, 8)} ${fluid(16, 24)}`, background: "rgba(76,175,80,0.2)", border: "1.66px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", borderRadius: 9999, fontWeight: 700, fontSize: fluid(13, 16), letterSpacing: 2, color: "#94F990" }}>Observed annually · May 15</span>
           </div>
-          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(36, 60), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
+          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(46, 60), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
           <p ref={heroPRef} style={{ fontWeight: 700, fontSize: fluid(20, 24), lineHeight: "1.5", color: "#fff", textAlign: "left", textShadow: "0 4px 12px rgba(0,0,0,0.3)", margin: "0 0 32px", maxWidth: layout(580, "100%") }}>A global day dedicated to toads, their ecological importance and the protection of their habitats.</p>
           <div ref={heroBtnsRef} style={{ display: "flex", flexWrap: "wrap", gap: fluid(12, 16) }}>
             <MagButton onClick={() => storySectionRef.current?.scrollIntoView({behavior:'smooth'})}
