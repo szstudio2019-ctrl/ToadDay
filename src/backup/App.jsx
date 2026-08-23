@@ -25,6 +25,8 @@ export default function App() {
   const [count, setCount] = useState(42851);
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const [slide, setSlide] = useState(0);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState("idle");
   const heroImgRef = useRef(null);
   const bannerImgRef = useRef(null);
   const heroSectionRef = useRef(null);
@@ -137,6 +139,22 @@ export default function App() {
     return () => ctx.revert();
   }, [isDesktop]);
 
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus("sending");
+    try {
+      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        method: "POST",
+        body: new FormData(e.target),
+        headers: { Accept: "application/json" },
+      });
+      setFormStatus(res.ok ? "sent" : "error");
+      if (res.ok) e.target.reset();
+    } catch {
+      setFormStatus("error");
+    }
+  };
+
   return (
     <div style={{ fontFamily: ff, direction: "ltr", color: "#1a1a1a", background: "#fff", width: "100%" }}>
 
@@ -151,7 +169,7 @@ export default function App() {
             style={{ position: "absolute", right: 0, top: 0, width: "50%", height: "100%", objectFit: "cover", mixBlendMode: "lighten", zIndex: 1, willChange: "transform, opacity" }}
           />
         )}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.6))", zIndex: 1 }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 65%)", zIndex: 1 }} />
         <div style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1280, margin: "0 auto", padding: `0 ${fluid(24, 96)}` }}>
           <div style={{ marginBottom: 20 }}>
             <span style={{ display: "inline-flex", alignItems: "center", padding: `${fluid(6, 8)} ${fluid(16, 24)}`, background: "rgba(76,175,80,0.2)", border: "1.66px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", borderRadius: 9999, fontWeight: 700, fontSize: fluid(13, 16), letterSpacing: 2, color: "#94F990" }}>Observed annually · May 15</span>
@@ -269,8 +287,8 @@ export default function App() {
 
       {/* ── VOTE ── */}
       <div id="vote-section" style={{ position:"relative", height: fluid(500, 688), overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Bufo_bufo_Luc_Viatour.jpg/1280px-Bufo_bufo_Luc_Viatour.jpg"
-          alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
+        <video src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
+          style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.45)", zIndex:1 }} />
         <div style={{ position:"relative", zIndex:2, display:"flex", flexDirection:"column", alignItems:"center", gap: fluid(32, 64), padding: "0 24px" }}>
           <h2 style={{ fontWeight:900, fontSize: fluid(36, 72), lineHeight:"1.1", color:"#fff", textAlign:"center", margin:0 }}>Together We'll Make History!</h2>
@@ -347,7 +365,7 @@ export default function App() {
             <div style={{ width:"100%", aspectRatio:"1 / 1", position:"relative" }}>
               {kidsSlides.map((s, i) => (
                 <div key={i} style={{ position:"absolute", inset:0, opacity: slide===i ? 1 : 0, transition:"opacity 0.4s", pointerEvents: slide===i ? "auto" : "none" }}>
-                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: `rotate(${i % 2 === 0 ? -4 : 4}deg)`, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative" }}>
+                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-4deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative" }}>
                     <img src={s.img} alt={s.alt} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                     <a href={s.file} download style={{ position:"absolute", bottom:16, right:16, width:48, height:48, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.2)" }}>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -371,22 +389,22 @@ export default function App() {
 
       {/* ── REPORT BANNER ── */}
       <div style={{ padding: `${fluid(24, 39)} ${fluid(16, 36)}`, background:"#f0f0f0" }}>
-        <div style={{ position:"relative", height: fluid(280, 320), borderRadius:24, overflow:"hidden", background:"#1a4a1a" }}>
-          <img src="https://i.imgur.com/etgzLZ8.jpeg"
-            alt="" style={{ position:"absolute", left:0, right:0, top:"-30%", width:"100%", height:"160%", objectFit:"cover", zIndex:0, willChange:"transform" }}
+        <div style={{ position:"relative", height: fluid(380, 520), borderRadius:24, overflow:"hidden", background:"#1a4a1a" }}>
+          <video src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
+            style={{ position:"absolute", left:0, right:0, top:"-30%", width:"100%", height:"160%", objectFit:"cover", zIndex:0, willChange:"transform" }}
             ref={bannerImgRef}
           />
 
           {/* Left: text */}
-          <div style={{ position:"absolute", left:0, top:0, width: layout(559, "55%"), height:"100%", background:"rgba(0,110,28,0.55)", backdropFilter:"blur(6px)", borderRadius: layout("20px 0 0 20px", "0"), zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-end", padding: `${fluid(16, 24)} ${fluid(12, 40)}`, gap:16 }}>
-            <h2 style={{ fontWeight:900, fontSize: fluid(20, 40), lineHeight:"1.1", color:"#fff", textAlign:"left", margin:0, width:"100%" }}>Found an interesting amphibian?<br/>Snap a photo and report it on our site!</h2>
+          <div style={{ position:"absolute", left:0, top:0, width: layout(660, "58%"), height:"100%", background:"rgba(0,110,28,0.55)", backdropFilter:"blur(6px)", borderRadius: layout("20px 0 0 20px", "0"), zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-end", padding: `${fluid(20, 40)} ${fluid(16, 56)}`, gap:20 }}>
+            <h2 style={{ fontWeight:900, fontSize: fluid(22, 44), lineHeight:"1.1", color:"#fff", textAlign:"left", margin:0, width:"100%" }}>Found an interesting amphibian?<br/>Snap a photo and report it on our site!</h2>
             <p style={{ fontWeight:700, fontSize: 18, lineHeight:"1.5", color:"#fff", textAlign:"left", margin:0, opacity:0.85, width:"100%" }}>Protecting Israel's reptiles and amphibians together.<br/>Every report helps us better understand the state of nature in Israel.</p>
           </div>
 
           {/* Right: buttons */}
-          <div style={{ position:"absolute", right:0, top:0, width: layout(260, "45%"), height:"100%", zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"flex-start", padding: `${fluid(16, 24)} ${fluid(12, 40)}`, gap:16 }}>
-            <button style={{ background:"#94F990", border:"none", borderRadius:9999, padding: `${fluid(12, 20)} ${fluid(16, 40)}`, fontFamily:ff, fontWeight:900, fontSize: fluid(13, 20), color:"#002204", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.1)" }}>I'm Voting</button>
-            <button onClick={() => document.getElementById('vote-section').scrollIntoView({behavior:'smooth'})} style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.2)", backdropFilter:"blur(6px)", borderRadius:9999, padding: `${fluid(12, 18)} ${fluid(16, 40)}`, fontFamily:ff, fontWeight:700, fontSize: fluid(13, 18), color:"#fff", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center" }}>Report a Sighting</button>
+          <div style={{ position:"absolute", right:0, top:0, width: layout(320, "42%"), height:"100%", zIndex:2, display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"stretch", padding: `${fluid(20, 32)} ${fluid(16, 48)}`, gap:20 }}>
+            <button style={{ background:"#94F990", border:"none", borderRadius:9999, padding: `${fluid(14, 22)} ${fluid(16, 32)}`, fontFamily:ff, fontWeight:900, fontSize: fluid(14, 20), color:"#002204", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.1)" }}>I'm Voting</button>
+            <button onClick={() => document.getElementById('vote-section').scrollIntoView({behavior:'smooth'})} style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.2)", backdropFilter:"blur(6px)", borderRadius:9999, padding: `${fluid(14, 20)} ${fluid(16, 32)}`, fontFamily:ff, fontWeight:700, fontSize: fluid(14, 18), color:"#fff", cursor:"pointer", whiteSpace: layout("nowrap", "normal"), textAlign:"center" }}>Report a Sighting</button>
           </div>
         </div>
       </div>
@@ -394,9 +412,12 @@ export default function App() {
       {/* ── FOOTER ── */}
       <div style={{ background:"#F6F3F2", padding: `${fluid(32, 48)} ${fluid(24, 48)}`, display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap:16 }}>
         <div style={{ display:"flex", flexDirection:"row", gap:24, alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
-          {[["Facebook","#3F4A3C"],["Instagram","#3F4A3C"],["Twitter","#3F4A3C"],["Contact Us","#15803D"]].map(([t,c])=>(
-            <span key={t} style={{ fontWeight: t==="Contact Us"?700:400, fontSize:14, color:c, textDecoration: t==="Contact Us"?"underline":"none", cursor:"pointer" }}>{t}</span>
-          ))}
+          <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer"
+            style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize:14, color:"#3F4A3C", textDecoration:"none", cursor:"pointer" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            Instagram
+          </a>
+          <span onClick={() => setContactOpen(true)} style={{ fontWeight:700, fontSize:14, color:"#15803D", textDecoration:"underline", cursor:"pointer" }}>Contact Us</span>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
           <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5C4.63 1.5 1.5 4.63 1.5 8.5s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" stroke="#166534" strokeWidth="1.5"/><path d="M8.5 5v3.5l2.5 1.5" stroke="#166534" strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -404,6 +425,47 @@ export default function App() {
         </div>
         <p style={{ fontWeight:400, fontSize:14, color:"#3F4A3C", margin:0, textAlign: layout("left", "center") }}>© 2024 International Toad Day. All rights reserved.</p>
       </div>
+
+      {/* ── CONTACT MODAL ── */}
+      {contactOpen && (
+        <div onClick={() => setContactOpen(false)}
+          style={{ position:"fixed", inset:0, zIndex:100, display:"flex", alignItems:"center", justifyContent:"center", padding:24 }}>
+          <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.65)" }} />
+          <div onClick={(e) => e.stopPropagation()}
+            style={{ position:"relative", width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto", borderRadius:24, overflow:"hidden", background:"#1a4a1a", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.5)" }}>
+            <video src="/toad_jump.mp4" autoPlay muted loop playsInline
+              style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8))", zIndex:1 }} />
+            <button onClick={() => setContactOpen(false)} aria-label="Close"
+              style={{ position:"absolute", top:16, right:16, zIndex:3, width:36, height:36, borderRadius:9999, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(6px)", color:"#fff", fontSize:18, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>✕</button>
+
+            <div style={{ position:"relative", zIndex:2, padding: fluid(28, 48) }}>
+              <h2 style={{ fontWeight:900, fontSize: fluid(28, 36), lineHeight:"1.1", color:"#fff", margin:"0 0 8px", textAlign:"left" }}>Contact Us</h2>
+              <p style={{ fontWeight:400, fontSize:16, color:"rgba(255,255,255,0.85)", margin:"0 0 24px", textAlign:"left" }}>Have a question or a sighting to share? Send us a message.</p>
+
+              {formStatus === "sent" ? (
+                <p style={{ fontWeight:700, fontSize:18, color:"#94F990", margin:0 }}>Thanks! Your message has been sent — we'll get back to you soon.</p>
+              ) : (
+                <form onSubmit={handleContactSubmit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                  <input name="name" type="text" placeholder="Your name" required
+                    style={{ fontFamily:ff, fontSize:16, padding:"14px 18px", borderRadius:12, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(255,255,255,0.1)", color:"#fff", outline:"none" }} />
+                  <input name="email" type="email" placeholder="Your email" required
+                    style={{ fontFamily:ff, fontSize:16, padding:"14px 18px", borderRadius:12, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(255,255,255,0.1)", color:"#fff", outline:"none" }} />
+                  <textarea name="message" placeholder="Your message" required rows={4}
+                    style={{ fontFamily:ff, fontSize:16, padding:"14px 18px", borderRadius:12, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(255,255,255,0.1)", color:"#fff", outline:"none", resize:"vertical" }} />
+                  <button type="submit" disabled={formStatus === "sending"}
+                    style={{ marginTop:8, background:"#94F990", color:"#002204", border:"none", borderRadius:9999, padding:"16px 32px", fontFamily:ff, fontWeight:900, fontSize:18, cursor: formStatus === "sending" ? "default" : "pointer", opacity: formStatus === "sending" ? 0.7 : 1 }}>
+                    {formStatus === "sending" ? "Sending…" : "Send Message"}
+                  </button>
+                  {formStatus === "error" && (
+                    <p style={{ color:"#ffb4b4", fontSize:14, margin:0 }}>Something went wrong — please try again or email us directly.</p>
+                  )}
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
