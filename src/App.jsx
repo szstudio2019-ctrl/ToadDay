@@ -814,7 +814,7 @@ export default function App() {
 
         {!isDesktop && (
           <div data-reveal style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 24, marginBottom: -100 }}>
-            <video autoPlay muted loop playsInline preload="auto" style={{ height: 200, width: "auto", transform: "scaleX(-1)" }}>
+            <video autoPlay muted loop playsInline preload="auto" style={{ height: 320, width: "auto", transform: "scaleX(-1)" }}>
               <source src="/toad_jump_alpha.webm" type="video/webm" />
               <source src="/toad_jump_compressed.mp4" type="video/mp4" />
             </video>
