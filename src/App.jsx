@@ -328,7 +328,10 @@ export default function App() {
     const img = factFramesRef.current[idx];
     if (!canvas || !img || !img.complete || !img.naturalWidth) return;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // Crop to a square centered on the toad (source frames are 960x540 with
+    // a lot of flat studio backdrop on the sides) so the round mask hugs
+    // the subject instead of fading over empty background.
+    ctx.drawImage(img, 215, 20, 520, 520, 0, 0, canvas.width, canvas.height);
   };
 
   useEffect(() => {
@@ -564,7 +567,7 @@ export default function App() {
 
         {/* Surprising fact — text left, scroll-scrubbed toad sequence right */}
         <div id="surprising-fact" ref={factSeqSectionRef} data-reveal style={{ background: "#F6FFF5", width: "100%", display: "flex", justifyContent: "center" }}>
-          <div style={sectionContainer({ display: "flex", flexDirection: layout("row", "column"), alignItems: "center", gap: fluid(40, 64), maxWidth: 1500, padding: `${layout(fluid(160, 200), fluid(48, 64))} ${fluid(24, 96)} ${layout(fluid(160, 200), fluid(48, 64))}` })}>
+          <div style={sectionContainer({ display: "flex", flexDirection: layout("row", "column"), alignItems: "center", gap: fluid(40, 64), padding: `${layout(fluid(160, 200), fluid(48, 64))} ${fluid(24, 96)} ${layout(fluid(160, 200), fluid(48, 64))}` })}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, flexShrink: 0, width: layout(420, "100%"), textAlign: "left" }}>
               <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
               <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
@@ -572,7 +575,7 @@ export default function App() {
               <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
             </div>
             <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "center" }}>
-              <canvas ref={factCanvasRef} width={960} height={540} style={{ width: "100%", maxWidth: layout(900, 480), height: "auto", display: "block", mixBlendMode: "multiply", maskImage: "radial-gradient(ellipse 68% 68% at center, #000 55%, transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 68% 68% at center, #000 55%, transparent 100%)" }} />
+              <canvas ref={factCanvasRef} width={520} height={520} style={{ width: "100%", maxWidth: layout(620, 460), height: "auto", display: "block", mixBlendMode: "multiply", maskImage: "radial-gradient(circle at center, #000 58%, rgba(0,0,0,0.6) 72%, transparent 92%)", WebkitMaskImage: "radial-gradient(circle at center, #000 58%, rgba(0,0,0,0.6) 72%, transparent 92%)" }} />
             </div>
           </div>
         </div>
