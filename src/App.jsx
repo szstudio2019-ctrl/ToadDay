@@ -65,8 +65,10 @@ export default function App() {
   const [vsIndex, setVsIndex] = useState(0);
   const [factsRevealed, setFactsRevealed] = useState(0);
   const [navOpen, setNavOpen] = useState(false);
+  const [whyDayExpanded, setWhyDayExpanded] = useState(false);
   const heroImgRef = useRef(null);
   const whyDayVideoRef = useRef(null);
+  const whyDayExtraRef = useRef(null);
   const voteVideoRef = useRef(null);
   const storySectionRef = useRef(null);
   const heroBadgeRef = useRef(null);
@@ -221,37 +223,28 @@ export default function App() {
           }
         );
       });
-      // VS watermark: scale + fade in as it enters view.
-      gsap.utils.toArray("[data-reveal-scale]").forEach((el) => {
-        gsap.fromTo(el,
-          { opacity: 0, scale: 0.85 },
-          {
-            opacity: 1, scale: 1, duration: 1, ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse" },
-          }
-        );
-      });
     });
     return () => ctx.revert();
   }, [isDesktop]);
 
-  // Headings and body text start half-transparent and scrub to full opacity as
-  // they cross the viewport, reversing smoothly when scrolling back up (tied
-  // directly to scroll position, not a one-time trigger).
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray("h1, h2, h3, p").forEach((el) => {
-        gsap.fromTo(el,
-          { opacity: 0.35 },
-          {
-            opacity: 1, ease: "none",
-            scrollTrigger: { trigger: el, start: "top 95%", end: "top 55%", scrub: true },
-          }
-        );
-      });
-    });
-    return () => ctx.revert();
+  // Force a full ScrollTrigger recalculation once the page has settled, so
+  // reveal triggers positioned after dynamically-sized content (collapsible
+  // cards, videos loading in) don't end up stuck with stale trigger points.
+  useEffect(() => {
+    const id = setTimeout(() => ScrollTrigger.refresh(), 300);
+    return () => clearTimeout(id);
   }, [isDesktop]);
+
+  // Why-Day card: animate the extra paragraphs open/closed rather than
+  // instantly mounting/unmounting them.
+  useLayoutEffect(() => {
+    const el = whyDayExtraRef.current;
+    if (!el) return;
+    gsap.to(el, whyDayExpanded
+      ? { height: "auto", opacity: 1, duration: 0.5, ease: "power2.out" }
+      : { height: 0, opacity: 0, duration: 0.4, ease: "power2.in" }
+    );
+  }, [whyDayExpanded]);
 
   // Vote counter: count up from its current value to the real vote total once the
   // section scrolls into view, then stays in sync with live votes afterward.
@@ -455,7 +448,7 @@ export default function App() {
       </div>
 
       {/* ── WHY TOAD ── */}
-      <div id="our-story" ref={storySectionRef} style={{ background: "#FBF9F8", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(80, 120)} 0 ${fluid(60, 100)}` }}>
+      <div id="our-story" ref={storySectionRef} style={{ background: "#F6FFF5", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(80, 120)} 0 ${fluid(60, 100)}` }}>
         <div data-reveal style={sectionContainer({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, marginBottom: fluid(24, 40) })}>
           <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
         </div>
@@ -503,7 +496,7 @@ export default function App() {
         </div>
 
         {/* Why the toad needs its own day — full-width video background card */}
-        <div id="why-day" data-reveal style={{ position: "relative", width: "100%", minHeight: fluid(750, 1080), overflow: "hidden", borderRadius: layout(24, 0), display: "flex", alignItems: layout("flex-start", "center"), justifyContent: "flex-start", paddingTop: layout(120, 0), boxSizing: "border-box" }}>
+        <div id="why-day" data-reveal style={{ position: "relative", width: "100%", minHeight: whyDayExpanded ? fluid(750, 1080) : fluid(420, 520), transition: "min-height 0.5s ease", overflow: "hidden", borderRadius: layout(24, 0), display: "flex", alignItems: layout("flex-start", "center"), justifyContent: "flex-start", paddingTop: layout(120, 0), paddingBottom: layout(120, 0), boxSizing: "border-box" }}>
           <video ref={whyDayVideoRef} autoPlay muted loop playsInline
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, transform: "scaleX(-1)" }}>
             <source src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" type="video/mp4" />
@@ -511,8 +504,17 @@ export default function App() {
           <div style={{ position: "relative", zIndex: 2, width: layout(530, "auto"), marginLeft: layout(`max(${fluid(24, 96)}, calc((100% - ${SECTION_MAX_WIDTH}px) / 2 + ${fluid(24, 96)}))`, fluid(24, 64)), marginRight: layout(0, fluid(24, 64)), boxSizing: "border-box", padding: fluid(32, 48), display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", gap: 20, background: "rgba(0,90,24,0.4)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
             <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%" }}>Why does the toad need its own day?</h2>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>For years, toads have lived in the shadow of their better-known relatives. Toads belong to the order Anura — the same diverse group that includes all frogs — but many true toads, members of the family Bufonidae, have evolved distinctive adaptations to life on land.</p>
-            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Many toads have relatively thick skin, prominent toxin-producing glands and adaptations that allow them to spend much of their adult lives away from water, returning to aquatic habitats mainly to breed. These traits have enabled toads to thrive in a remarkable variety of terrestrial environments.</p>
-            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Toads deserve to be recognized in their own right. They are fascinating, resilient animals and important members of their ecosystems. They consume large numbers of insects and other invertebrates and, in turn, form part of the food web. Yet toad species around the world face growing pressures from habitat loss, climate change, disease and pollution.</p>
+            <button onClick={() => setWhyDayExpanded((v) => !v)} aria-label={whyDayExpanded ? "Read less" : "Read more"}
+              style={{ alignSelf:"flex-start", border:"none", background:"transparent", color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", gap:8, padding:0 }}>
+              <span style={{ fontWeight:700, fontSize:15 }}>{whyDayExpanded ? "Read less" : "Read more"}</span>
+              <span style={{ width:32, height:32, borderRadius:9999, background:"rgba(255,255,255,0.2)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"transform 0.3s ease", transform: whyDayExpanded ? "rotate(180deg)" : "none" }}>
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+            </button>
+            <div ref={whyDayExtraRef} style={{ overflow: "hidden", height: 0, opacity: 0, display: "flex", flexDirection: "column", gap: 20, width: "100%" }}>
+              <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Many toads have relatively thick skin, prominent toxin-producing glands and adaptations that allow them to spend much of their adult lives away from water, returning to aquatic habitats mainly to breed. These traits have enabled toads to thrive in a remarkable variety of terrestrial environments.</p>
+              <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Toads deserve to be recognized in their own right. They are fascinating, resilient animals and important members of their ecosystems. They consume large numbers of insects and other invertebrates and, in turn, form part of the food web. Yet toad species around the world face growing pressures from habitat loss, climate change, disease and pollution.</p>
+            </div>
           </div>
         </div>
 
@@ -609,7 +611,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div data-reveal-scale style={{ position: "relative", width: "100%", height: 660, margin: "0 auto" }}>
+                <div style={{ position: "relative", width: "100%", height: 660, margin: "0 auto" }}>
                   {/* VS text */}
                   {/* frogs video */}
                   <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
@@ -695,10 +697,9 @@ export default function App() {
           #recognition .recog-card { background:#fff; }
           #recognition .recog-desc { margin-top: 12px; }
           @media (min-width: 1024px) {
-            #recognition .recog-card { min-height: 360px; }
-            #recognition .recog-card .recog-desc { clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path 0.6s ease, opacity 0.4s ease; }
+            #recognition .recog-card .recog-desc { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s ease; }
             #recognition .recog-card:hover { border-color: #006E1C; background: #F6FFF5; box-shadow: 0 20px 40px -20px rgba(0,110,28,0.35); }
-            #recognition .recog-card:hover .recog-desc { clip-path: inset(0 0 0% 0); opacity: 1; }
+            #recognition .recog-card:hover .recog-desc { max-height: 400px; opacity: 1; }
             #recognition .recog-card:hover .recog-plus { transform: rotate(45deg); }
             #recognition .recog-plus { transition: transform 0.4s ease; }
           }
@@ -708,7 +709,7 @@ export default function App() {
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Recognition & Participation</h2>
         </div>
 
-        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1200 }}>
+        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1600 }}>
 
           {[
             {
