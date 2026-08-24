@@ -575,7 +575,7 @@ export default function App() {
               <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
             </div>
             <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "center" }}>
-              <canvas ref={factCanvasRef} width={520} height={520} style={{ width: "100%", maxWidth: layout(620, 460), height: "auto", display: "block", mixBlendMode: "multiply", maskImage: "radial-gradient(circle at center, #000 58%, rgba(0,0,0,0.6) 72%, transparent 92%)", WebkitMaskImage: "radial-gradient(circle at center, #000 58%, rgba(0,0,0,0.6) 72%, transparent 92%)" }} />
+              <canvas ref={factCanvasRef} width={520} height={520} style={{ width: "100%", maxWidth: layout(620, 460), height: "auto", display: "block", mixBlendMode: "multiply", maskImage: "radial-gradient(circle closest-side at center, #000 40%, rgba(0,0,0,0.5) 70%, transparent 100%)", WebkitMaskImage: "radial-gradient(circle closest-side at center, #000 40%, rgba(0,0,0,0.5) 70%, transparent 100%)" }} />
             </div>
           </div>
         </div>
