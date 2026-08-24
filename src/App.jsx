@@ -623,7 +623,7 @@ export default function App() {
             </div>
           )}
 
-          <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0), marginBottom: layout(-90, 0), padding: fluid(24, 32), boxSizing: "border-box" }}>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0), marginBottom: 0, padding: fluid(24, 32), boxSizing: "border-box" }}>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.5", color: "#3F4A3C", margin: 0 }}>These are useful general tendencies, not strict scientific rules. "Frog" and "toad" are common names within the same order.</p>
             <a href="https://www.israelreptiles.co.il/%d7%9e%d7%92%d7%93%d7%99%d7%a8-%d7%93%d7%95-%d7%97%d7%99%d7%99%d7%9d/" target="_blank" rel="noopener noreferrer"
               style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,90,24,0.55)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", borderRadius: 9999, padding: `${fluid(14, 18)} ${fluid(28, 44)}`, fontFamily: ff, fontWeight: 700, fontSize: fluid(16, 20), cursor: "pointer", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.15)", textDecoration: "none" }}>
