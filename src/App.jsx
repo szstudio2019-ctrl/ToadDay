@@ -314,7 +314,7 @@ export default function App() {
     { id: "surprising-fact", label: "Surprising Fact" },
     { id: "toad-or-frog", label: "Toad or Frog?" },
     { id: "vote-section", label: "Vote" },
-    { id: "recognition", label: "Recognition" },
+    { id: "recognition", label: "Recognition & Participation" },
     { id: "facts", label: "Facts" },
     { id: "kids", label: "Kids' Activities" },
   ];
@@ -471,12 +471,12 @@ export default function App() {
         </div>
 
         {/* Why the toad needs its own day — full-width video background card */}
-        <div id="why-day" data-reveal style={{ position: "relative", width: "100%", minHeight: fluid(600, 900), overflow: "hidden", borderRadius: layout(24, 0), display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+        <div id="why-day" data-reveal style={{ position: "relative", width: "100%", minHeight: fluid(750, 1080), overflow: "hidden", borderRadius: layout(24, 0), display: "flex", alignItems: layout("flex-start", "center"), justifyContent: "flex-start", paddingTop: layout(120, 0), boxSizing: "border-box" }}>
           <video autoPlay muted loop playsInline
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, transform: "scaleX(-1)" }}>
             <source src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" type="video/mp4" />
           </video>
-          <div style={{ position: "relative", zIndex: 2, width: layout(530, "auto"), marginLeft: fluid(24, 64), marginRight: layout(0, fluid(24, 64)), boxSizing: "border-box", padding: fluid(32, 48), display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", gap: 20, background: "rgba(0,90,24,0.4)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
+          <div style={{ position: "relative", zIndex: 2, width: layout(530, "auto"), marginLeft: layout(`max(${fluid(24, 96)}, calc((100% - ${SECTION_MAX_WIDTH}px) / 2 + ${fluid(24, 96)}))`, fluid(24, 64)), marginRight: layout(0, fluid(24, 64)), boxSizing: "border-box", padding: fluid(32, 48), display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", gap: 20, background: "rgba(0,90,24,0.4)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
             <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%" }}>Why does the toad need its own day?</h2>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>For years, toads have lived in the shadow of their better-known relatives. Toads belong to the order Anura — the same diverse group that includes all frogs — but many true toads, members of the family Bufonidae, have evolved distinctive adaptations to life on land.</p>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Many toads have relatively thick skin, prominent toxin-producing glands and adaptations that allow them to spend much of their adult lives away from water, returning to aquatic habitats mainly to breed. These traits have enabled toads to thrive in a remarkable variety of terrestrial environments.</p>
@@ -603,7 +603,7 @@ export default function App() {
             </div>
           )}
 
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 700, textAlign: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0) }}>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.5", color: "#3F4A3C", margin: 0 }}>These are useful general tendencies, not strict scientific rules. "Frog" and "toad" are common names within the same order.</p>
             <a href="https://www.israelreptiles.co.il/%d7%9e%d7%92%d7%93%d7%99%d7%a8-%d7%93%d7%95-%d7%97%d7%99%d7%99%d7%9d/" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, fontSize: 14, color: "#006E1C" }}>Explore the complete Israel amphibian guide.</a>
           </div>
@@ -611,7 +611,7 @@ export default function App() {
       </div>
 
       {/* ── VOTE ── */}
-      <div id="vote-section" style={{ position:"relative", height: fluid(500, 688), overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+      <div id="vote-section" style={{ position:"relative", height: fluid(750, 1080), overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
         <video ref={voteVideoRef} src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
           style={{ position:"absolute", left:0, right:0, top:"-15%", width:"100%", height:"130%", objectFit:"cover", zIndex:0, willChange:"transform" }} />
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.45)", zIndex:1 }} />
