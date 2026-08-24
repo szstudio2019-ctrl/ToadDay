@@ -579,7 +579,9 @@ export default function App() {
                   {/* VS text */}
                   {/* frogs video */}
                   <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
-                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", mixBlendMode:"multiply", zIndex:2, borderRadius:16 }} />
+                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", mixBlendMode:"multiply", zIndex:2, borderRadius:16,
+                      maskImage: "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%)" }} />
                   <div style={{ position:"absolute", left:"50%", top:0, transform:"translateX(-50%)", fontWeight:900, fontSize:388, lineHeight:"432px", background:"linear-gradient(180deg,#C4FEC2 31.86%,#E2FEE0 47.33%,#fff 73.48%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", zIndex:1, userSelect:"none", whiteSpace:"nowrap" }}>VS</div>
                 </div>
               </div>
@@ -637,7 +639,7 @@ export default function App() {
       </div>
 
       {/* ── JOIN THE CELEBRATION ── */}
-      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -100, boxSizing:"border-box" }}>
+      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: 44, boxSizing:"border-box" }}>
         <div data-reveal style={{ width:"100%", maxWidth:900, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:24, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.4)", padding: fluid(32, 48), display:"flex", flexDirection:"column", alignItems:"center", gap:16, textAlign:"center", boxSizing:"border-box" }}>
           <span style={{ fontWeight:700, fontSize:14, letterSpacing:2, textTransform:"uppercase", color:"#94F990" }}>International Toad Day 2027</span>
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>Join the Celebration Around the World</h2>
