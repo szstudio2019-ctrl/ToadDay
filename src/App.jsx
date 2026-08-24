@@ -448,7 +448,7 @@ export default function App() {
       </div>
 
       {/* ── WHY TOAD ── */}
-      <div id="our-story" ref={storySectionRef} style={{ background: "#fff", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(160, 240)} 0` }}>
+      <div id="our-story" ref={storySectionRef} style={{ background: "#fff", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: fluid(160, 240) }}>
         <div data-reveal style={sectionContainer({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, marginBottom: fluid(24, 40) })}>
           <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
         </div>
@@ -697,10 +697,9 @@ export default function App() {
           #recognition .recog-card { background:#fff; }
           #recognition .recog-desc { margin-top: 12px; }
           @media (min-width: 1024px) {
-            #recognition .recog-card { min-height: 470px; }
-            #recognition .recog-card .recog-desc { clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path 0.6s ease, opacity 0.4s ease; }
-            #recognition .recog-card:hover { border-color: #006E1C; background: #F6FFF5; box-shadow: 0 20px 40px -20px rgba(0,110,28,0.35); }
-            #recognition .recog-card:hover .recog-desc { clip-path: inset(0 0 0% 0); opacity: 1; }
+            #recognition .recog-card .recog-desc { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s ease; }
+            #recognition .recog-card:hover { border-color: #006E1C; background: #F6FFF5; }
+            #recognition .recog-card:hover .recog-desc { max-height: 400px; opacity: 1; }
             #recognition .recog-card:hover .recog-plus { transform: rotate(45deg); }
             #recognition .recog-plus { transition: transform 0.4s ease; }
           }
@@ -710,7 +709,7 @@ export default function App() {
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Recognition & Participation</h2>
         </div>
 
-        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1600 }}>
+        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), flexWrap: layout("wrap", "nowrap"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1100 }}>
 
           {[
             {
@@ -743,13 +742,16 @@ export default function App() {
               ],
             },
           ].map((card) => (
-            <div key={card.title} className="recog-card" style={{ flex:1, border:"1px solid rgba(0,110,28,0.25)", borderRadius:20, padding: fluid(20, 28), display:"flex", flexDirection:"column", boxSizing:"border-box", transition:"border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease" }}>
-              <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12 }}>
-                <h3 style={{ fontWeight:800, fontSize: fluid(20, 23), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left" }}>{card.title}</h3>
-                <svg className="recog-plus" width="18" height="18" viewBox="0 0 20 21" fill="none" style={{ flexShrink:0, marginTop:4 }}>
-                  <path d="M10 20.043C9.24937 20.043 8.64116 19.4347 8.64116 18.6841L8.64116 1.40181C8.64116 0.651187 9.24937 0.0429687 10 0.0429687C10.7506 0.0429687 11.3588 0.651187 11.3588 1.40181L11.3588 18.6841C11.3588 19.4347 10.7506 20.043 10 20.043Z" fill="#006E1C"/>
-                  <path d="M18.6412 11.4018L1.35884 11.4018C0.608218 11.4018 0 10.7936 0 10.043C0 9.29234 0.608218 8.68412 1.35884 8.68412L18.6412 8.68412C19.3918 8.68412 20 9.29234 20 10.043C20 10.7936 19.3918 11.4018 18.6412 11.4018Z" fill="#006E1C"/>
+            <div key={card.title} className="recog-card" style={{ position:"relative", flex: layout("0 1 calc(50% - 12px)", "1 1 auto"), border:"1px solid rgba(0,110,28,0.25)", borderRadius:20, padding: fluid(20, 28), display:"flex", flexDirection:"column", boxSizing:"border-box", transition:"border-color 0.4s ease, background 0.4s ease" }}>
+              <div style={{ position:"absolute", top:-18, right:-18, width:44, height:44, borderRadius:9999, background:"#fff" }} />
+              <div className="recog-plus" style={{ position:"absolute", top:-16, right:-16, width:36, height:36, borderRadius:9999, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.25)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 20px -8px rgba(0,60,15,0.5)" }}>
+                <svg width="16" height="17" viewBox="0 0 20 21" fill="none">
+                  <path d="M10 20.043C9.24937 20.043 8.64116 19.4347 8.64116 18.6841L8.64116 1.40181C8.64116 0.651187 9.24937 0.0429687 10 0.0429687C10.7506 0.0429687 11.3588 0.651187 11.3588 1.40181L11.3588 18.6841C11.3588 19.4347 10.7506 20.043 10 20.043Z" fill="#fff"/>
+                  <path d="M18.6412 11.4018L1.35884 11.4018C0.608218 11.4018 0 10.7936 0 10.043C0 9.29234 0.608218 8.68412 1.35884 8.68412L18.6412 8.68412C19.3918 8.68412 20 9.29234 20 10.043C20 10.7936 19.3918 11.4018 18.6412 11.4018Z" fill="#fff"/>
                 </svg>
+              </div>
+              <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12 }}>
+                <h3 style={{ fontWeight:800, fontSize: fluid(18, 21), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left", width:"100%" }}>{card.title}</h3>
               </div>
               <div className="recog-desc" style={{ overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
                 {card.text && <p style={{ fontWeight:400, fontSize:15, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>{card.text}</p>}
