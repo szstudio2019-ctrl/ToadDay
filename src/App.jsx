@@ -448,7 +448,7 @@ export default function App() {
       </div>
 
       {/* ── WHY TOAD ── */}
-      <div id="our-story" ref={storySectionRef} style={{ background: "#F6FFF5", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(80, 120)} 0 ${fluid(60, 100)}` }}>
+      <div id="our-story" ref={storySectionRef} style={{ background: "#fff", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(160, 240)} 0` }}>
         <div data-reveal style={sectionContainer({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, marginBottom: fluid(24, 40) })}>
           <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
         </div>
@@ -692,14 +692,15 @@ export default function App() {
       </div>
 
       {/* ── RECOGNITION & PARTICIPATION ── */}
-      <div id="recognition" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(80, 120)} ${fluid(24, 96)} ${fluid(60, 100)}`, boxSizing:"border-box" }}>
+      <div id="recognition" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(160, 240)} ${fluid(24, 96)} ${fluid(120, 200)}`, boxSizing:"border-box" }}>
         <style>{`
           #recognition .recog-card { background:#fff; }
           #recognition .recog-desc { margin-top: 12px; }
           @media (min-width: 1024px) {
-            #recognition .recog-card .recog-desc { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s ease; }
+            #recognition .recog-card { min-height: 470px; }
+            #recognition .recog-card .recog-desc { clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path 0.6s ease, opacity 0.4s ease; }
             #recognition .recog-card:hover { border-color: #006E1C; background: #F6FFF5; box-shadow: 0 20px 40px -20px rgba(0,110,28,0.35); }
-            #recognition .recog-card:hover .recog-desc { max-height: 400px; opacity: 1; }
+            #recognition .recog-card:hover .recog-desc { clip-path: inset(0 0 0% 0); opacity: 1; }
             #recognition .recog-card:hover .recog-plus { transform: rotate(45deg); }
             #recognition .recog-plus { transition: transform 0.4s ease; }
           }
