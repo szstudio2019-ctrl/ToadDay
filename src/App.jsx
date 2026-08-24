@@ -27,6 +27,20 @@ const fluid = (min, max, minVw = 360, maxVw = 1280) => {
   return `clamp(${Math.min(min, max)}px, ${base.toFixed(2)}px + ${(slope * 100).toFixed(4)}vw, ${Math.max(min, max)}px)`;
 };
 
+// Shared page-content container: same max-width, centering and side padding
+// for every top-level section, so their text all starts on the same vertical
+// line instead of each section rolling its own alignment/padding.
+const SECTION_MAX_WIDTH = 1300;
+const sectionContainer = (extra = {}) => ({
+  width: "100%",
+  maxWidth: SECTION_MAX_WIDTH,
+  marginLeft: "auto",
+  marginRight: "auto",
+  padding: `0 ${fluid(24, 96)}`,
+  boxSizing: "border-box",
+  ...extra,
+});
+
 // A button that lifts and gently scales on hover/press — used for primary CTAs.
 function MagButton({ as: Tag = "button", style, children, ...rest }) {
   const ref = useRef(null);
@@ -280,6 +294,7 @@ export default function App() {
   const castVote = () => {
     if (voted) return;
     setVoted(true);
+    gsap.killTweensOf(countObjRef.current);
     setCount((c) => {
       const next = c + 1;
       countObjRef.current.val = next;
@@ -299,6 +314,7 @@ export default function App() {
     { id: "surprising-fact", label: "Surprising Fact" },
     { id: "toad-or-frog", label: "Toad or Frog?" },
     { id: "vote-section", label: "Vote" },
+    { id: "recognition", label: "Recognition" },
     { id: "facts", label: "Facts" },
     { id: "kids", label: "Kids' Activities" },
   ];
@@ -386,11 +402,11 @@ export default function App() {
           ref={heroImgRef}
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 65%)", zIndex: 1 }} />
-        <div style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1300, margin: "0 auto", padding: `0 ${fluid(24, 96)}` }}>
+        <div style={sectionContainer({ position: "relative", zIndex: 2 })}>
           <div ref={heroBadgeRef} style={{ marginBottom: 20 }}>
             <span style={{ display: "inline-flex", alignItems: "center", padding: `${fluid(6, 8)} ${fluid(16, 24)}`, background: "rgba(76,175,80,0.2)", border: "1.66px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)", borderRadius: 9999, fontWeight: 700, fontSize: fluid(13, 16), letterSpacing: 2, color: "#94F990" }}>Observed annually · May 15</span>
           </div>
-          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(46, 60), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
+          <h1 ref={heroH1Ref} style={{ fontWeight: 900, fontSize: fluid(48, 62), lineHeight: "1.05", color: "#fff", textAlign: "left", textShadow: "0 3px 10px rgba(0,0,0,0.3)", margin: "0 0 20px", maxWidth: layout(640, "100%") }}>International Toad Day</h1>
           <p ref={heroPRef} style={{ fontWeight: 700, fontSize: fluid(20, 24), lineHeight: "1.5", color: "#fff", textAlign: "left", textShadow: "0 4px 12px rgba(0,0,0,0.3)", margin: "0 0 32px", maxWidth: layout(580, "100%") }}>A global day dedicated to toads, their ecological importance and the protection of their habitats.</p>
           <div ref={heroBtnsRef} style={{ display: "flex", flexWrap: "wrap", gap: fluid(12, 16) }}>
             <MagButton onClick={() => storySectionRef.current?.scrollIntoView({behavior:'smooth'})}
@@ -408,10 +424,10 @@ export default function App() {
 
       {/* ── WHY TOAD ── */}
       <div id="our-story" ref={storySectionRef} style={{ background: "#FBF9F8", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(80, 120)} 0 ${fluid(60, 100)}` }}>
-        <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, padding: `0 ${fluid(24, 96)}`, width: "100%", maxWidth: 1300, boxSizing: "border-box", marginBottom: fluid(24, 40) }}>
+        <div data-reveal style={sectionContainer({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, marginBottom: fluid(24, 40) })}>
           <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
         </div>
-        <div style={{ display: "flex", flexDirection: layout("row-reverse", "column"), alignItems: "center", padding: `0 ${fluid(24, 96)}`, gap: fluid(40, 64), width: "100%", maxWidth: 1300, boxSizing: "border-box" }}>
+        <div style={sectionContainer({ display: "flex", flexDirection: layout("row-reverse", "column"), alignItems: "center", gap: fluid(40, 64) })}>
 
           {/* Right: image grid */}
           {isDesktop && (
@@ -437,7 +453,7 @@ export default function App() {
 
           {/* Left: text */}
           <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 24, flex: 1, width: "100%" }}>
-            <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>From an Israeli initiative to a<br />growing international day</h2>
+            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>From an Israeli initiative to a<br />growing international day</h2>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>International Toad Day was founded in Israel in 2026 by Avi Zobel and Reptiles of Israel. It was created to challenge old myths, give toads the recognition they deserve, and encourage education, research, and habitat conservation around the world.</p>
             <p style={{ fontWeight: 700, fontSize: 19, lineHeight: "1.7", color: "#1B1C1C", textAlign: "left", margin: 0 }}>The first International Toad Day was observed on May 15, 2026. During its inaugural year, it gained recognition from educational and natural-history institutions in Israel and was marked by nature, wildlife, and educational communities in several countries — laying the foundation for a new annual global tradition.</p>
           </div>
@@ -461,7 +477,7 @@ export default function App() {
             <source src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" type="video/mp4" />
           </video>
           <div style={{ position: "relative", zIndex: 2, width: layout("50%", "auto"), minWidth: layout(420, 0), marginLeft: fluid(24, 64), marginRight: layout(0, fluid(24, 64)), boxSizing: "border-box", padding: fluid(32, 48), display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", gap: 20, background: "rgba(0,90,24,0.4)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
-            <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%", whiteSpace: isDesktop ? "nowrap" : "normal" }}>Why does the toad need its own day?</h2>
+            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#fff", textAlign: "left", margin: "0 0 8px", width: "100%", whiteSpace: isDesktop ? "nowrap" : "normal" }}>Why does the toad need its own day?</h2>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>For years, toads have lived in the shadow of their better-known relatives. Toads belong to the order Anura — the same diverse group that includes all frogs — but many true toads, members of the family Bufonidae, have evolved distinctive adaptations to life on land.</p>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Many toads have relatively thick skin, prominent toxin-producing glands and adaptations that allow them to spend much of their adult lives away from water, returning to aquatic habitats mainly to breed. These traits have enabled toads to thrive in a remarkable variety of terrestrial environments.</p>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.6", color: "rgba(255,255,255,0.9)", textAlign: "left", margin: 0, width: "100%" }}>Toads deserve to be recognized in their own right. They are fascinating, resilient animals and important members of their ecosystems. They consume large numbers of insects and other invertebrates and, in turn, form part of the food web. Yet toad species around the world face growing pressures from habitat loss, climate change, disease and pollution.</p>
@@ -471,7 +487,7 @@ export default function App() {
         {/* Surprising fact — plain */}
         <div id="surprising-fact" data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: layout(`${fluid(160, 200)} ${fluid(24, 96)} ${fluid(98, 138)}`, `${fluid(48, 64)} ${fluid(24, 32)}`), width: "100%", maxWidth: 1300, boxSizing: "border-box", textAlign: "center" }}>
           <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
-          <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
+          <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
           <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Israel has only one true toad species: the Green Toad (<i>Bufotes viridis</i>). Although it is sometimes confused with other amphibians, it is the country's only representative of the true toad family, Bufonidae.</p>
           <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
         </div>
@@ -488,7 +504,7 @@ export default function App() {
             <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1200, margin: "0 auto", padding: `0 ${fluid(24, 48)}`, boxSizing: "border-box", display: "flex", flexDirection: layout("row", "column"), alignItems: "center", justifyContent: "space-between", gap: fluid(32, 64) }}>
               <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: layout("flex-start", "center"), gap: 12, maxWidth: layout(440, "100%"), textAlign: layout("left", "center") }}>
                 <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Must-Know Facts</div>
-                <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#fff", textAlign: layout("left","center"), margin:0, width:"100%", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know About the Toad</h2>
+                <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", textAlign: layout("left","center"), margin:0, width:"100%", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know About the Toad</h2>
                 <p style={{ fontWeight:500, fontSize: 19, lineHeight:"24px", color:"#fff", textAlign: layout("left","center"), margin:0, textShadow:"0 2px 8px rgba(0,0,0,0.3)" }}>Turns out they're so much more than we thought. Meet the superhero of the garden.</p>
               </div>
               <div style={{ position: "relative", width: fluid(320, 460), height: fluid(320, 460), flexShrink: 0 }}>
@@ -525,12 +541,12 @@ export default function App() {
       </div>
 
       {/* ── VS ── */}
-      <div id="toad-or-frog" style={{ background: "linear-gradient(180deg,#FBF9F8 33%,#fff 56%)", padding: `${fluid(40, 44)} ${fluid(16, 32)}` }}>
+      <div id="toad-or-frog" style={{ background: "#fff", padding: `${fluid(40, 44)} ${fluid(16, 32)}` }}>
         <div style={{ maxWidth: 1300, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
           {!isDesktop && (
             <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
               <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
-              <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
+              <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
             </div>
           )}
 
@@ -544,7 +560,7 @@ export default function App() {
                 </div>
                 <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
                   <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
-                  <h2 style={{ fontWeight: 900, fontSize: fluid(24, 36), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
+                  <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
                 </div>
 
                 <div ref={vsPillsRowRef} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, width: "100%", maxWidth: 1176 }}>
@@ -561,10 +577,10 @@ export default function App() {
 
                 <div data-reveal-scale style={{ position: "relative", width: "100%", height: 660, margin: "0 auto" }}>
                   {/* VS text */}
-                  <div style={{ position:"absolute", left:"50%", top:0, transform:"translateX(-50%)", fontWeight:900, fontSize:388, lineHeight:"432px", background:"linear-gradient(180deg,#C4FEC2 31.86%,#E2FEE0 47.33%,#fff 73.48%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", zIndex:0, userSelect:"none", whiteSpace:"nowrap" }}>VS</div>
                   {/* frogs video */}
                   <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
-                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", zIndex:1, borderRadius:16 }} />
+                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", mixBlendMode:"multiply", zIndex:2, borderRadius:16 }} />
+                  <div style={{ position:"absolute", left:"50%", top:0, transform:"translateX(-50%)", fontWeight:900, fontSize:388, lineHeight:"432px", background:"linear-gradient(180deg,#C4FEC2 31.86%,#E2FEE0 47.33%,#fff 73.48%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", zIndex:1, userSelect:"none", whiteSpace:"nowrap" }}>VS</div>
                 </div>
               </div>
             </div>
@@ -598,7 +614,7 @@ export default function App() {
           style={{ position:"absolute", left:0, right:0, top:"-15%", width:"100%", height:"130%", objectFit:"cover", zIndex:0, willChange:"transform" }} />
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.45)", zIndex:1 }} />
         <div data-reveal style={{ position:"relative", zIndex:2, display:"flex", flexDirection:"column", alignItems:"center", gap: fluid(32, 64), padding: "0 24px" }}>
-          <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#fff", textAlign:"center", margin:0 }}>Together We'll Make History!</h2>
+          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", textAlign:"center", margin:0 }}>Together We'll Make History!</h2>
           <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
             <div ref={counterRef} style={{ fontWeight:900, fontSize: fluid(80, 192), lineHeight:"1", letterSpacing: fluid(-9.6, -3), color:"#fff", textAlign:"center" }}>{displayCount.toLocaleString()}</div>
             <div style={{ fontWeight:700, fontSize: fluid(24, 48), color:"#fff", textAlign:"center", marginBottom: fluid(24, 32) }}>voters</div>
@@ -620,12 +636,97 @@ export default function App() {
         </div>
       </div>
 
+      {/* ── JOIN THE CELEBRATION ── */}
+      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -100, boxSizing:"border-box" }}>
+        <div data-reveal style={{ width:"100%", maxWidth:900, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:24, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.4)", padding: fluid(32, 48), display:"flex", flexDirection:"column", alignItems:"center", gap:16, textAlign:"center", boxSizing:"border-box" }}>
+          <span style={{ fontWeight:700, fontSize:14, letterSpacing:2, textTransform:"uppercase", color:"#94F990" }}>International Toad Day 2027</span>
+          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>Join the Celebration Around the World</h2>
+          <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.6", color:"rgba(255,255,255,0.9)", margin:0, maxWidth:700 }}>Organizations, museums, zoos, schools, educators and nature communities around the world are invited to take part in <strong style={{ fontWeight:700, color:"#fff" }}>International Toad Day on May 15, 2027</strong>.</p>
+          <p style={{ fontWeight:700, fontSize:17, color:"#fff", margin:0 }}>Registration will open soon</p>
+        </div>
+      </div>
+
+      {/* ── RECOGNITION & PARTICIPATION ── */}
+      <div id="recognition" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(80, 120)} ${fluid(24, 96)} ${fluid(60, 100)}`, boxSizing:"border-box" }}>
+        <style>{`
+          #recognition .recog-card { background:#fff; }
+          #recognition .recog-desc { margin-top: 12px; }
+          @media (min-width: 1024px) {
+            #recognition .recog-card { min-height: 360px; }
+            #recognition .recog-card .recog-desc { clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path 0.6s ease, opacity 0.4s ease; }
+            #recognition .recog-card:hover { border-color: #006E1C; background: #F6FFF5; box-shadow: 0 20px 40px -20px rgba(0,110,28,0.35); }
+            #recognition .recog-card:hover .recog-desc { clip-path: inset(0 0 0% 0); opacity: 1; }
+            #recognition .recog-card:hover .recog-plus { transform: rotate(45deg); }
+            #recognition .recog-plus { transition: transform 0.4s ease; }
+          }
+        `}</style>
+        <div data-reveal style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, width:"100%", maxWidth:900, textAlign:"center", marginBottom: fluid(40, 56) }}>
+          <div style={{ background:"#D9E6DA", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#5B675E", textTransform:"uppercase", letterSpacing:1 }}>Recognition</div>
+          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Recognition & Participation</h2>
+        </div>
+
+        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1200 }}>
+
+          {[
+            {
+              title: "Institutional Recognition",
+              items: [
+                "Israel Ministry of Education – Green Dates Calendar",
+                "The National Natural History Collections, The Hebrew University of Jerusalem",
+              ],
+            },
+            {
+              title: "Organizations That Marked International Toad Day in 2026",
+              items: [
+                "DGHT – German Society for Herpetology and Herpetoculture, Germany",
+                "Fota Wildlife Park, Ireland",
+                "Kamloops Naturalist Club, Canada",
+                "The Steinhardt Museum of Natural History, Israel",
+              ],
+            },
+            {
+              title: "Did Your Organization Take Part in 2026?",
+              text: "If your organization marked International Toad Day in 2026, we would be happy to hear from you.",
+              items: ["Contact us to be included in the official list of participating organizations."],
+            },
+            {
+              title: "International Listings",
+              text: "International Toad Day is also included in environmental and international awareness-day listings:",
+              items: [
+                "Wikipedia – List of Environmental Dates",
+                "Hebrew Wikipedia – International Observance Days",
+              ],
+            },
+          ].map((card) => (
+            <div key={card.title} className="recog-card" style={{ flex:1, border:"1px solid rgba(0,110,28,0.25)", borderRadius:20, padding: fluid(20, 28), display:"flex", flexDirection:"column", boxSizing:"border-box", transition:"border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease" }}>
+              <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12 }}>
+                <h3 style={{ fontWeight:800, fontSize: fluid(20, 23), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left" }}>{card.title}</h3>
+                <svg className="recog-plus" width="18" height="18" viewBox="0 0 20 21" fill="none" style={{ flexShrink:0, marginTop:4 }}>
+                  <path d="M10 20.043C9.24937 20.043 8.64116 19.4347 8.64116 18.6841L8.64116 1.40181C8.64116 0.651187 9.24937 0.0429687 10 0.0429687C10.7506 0.0429687 11.3588 0.651187 11.3588 1.40181L11.3588 18.6841C11.3588 19.4347 10.7506 20.043 10 20.043Z" fill="#006E1C"/>
+                  <path d="M18.6412 11.4018L1.35884 11.4018C0.608218 11.4018 0 10.7936 0 10.043C0 9.29234 0.608218 8.68412 1.35884 8.68412L18.6412 8.68412C19.3918 8.68412 20 9.29234 20 10.043C20 10.7936 19.3918 11.4018 18.6412 11.4018Z" fill="#006E1C"/>
+                </svg>
+              </div>
+              <div className="recog-desc" style={{ overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
+                {card.text && <p style={{ fontWeight:400, fontSize:15, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>{card.text}</p>}
+                {card.items.map((t) => (
+                  <div key={t} style={{ display:"flex", alignItems:"flex-start", gap:8 }}>
+                    <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style={{ flexShrink:0, marginTop:3 }}><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#006E1C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <span style={{ fontWeight:600, fontSize:15, lineHeight:"1.5", color:"#1B1C1C", textAlign:"left" }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+        </div>
+      </div>
+
       {/* ── KIDS ACTIVITY ── */}
       <div id="kids" style={{ position:"relative", zIndex:2, background:"#F6FFF5", padding: `${fluid(60, 128)} ${fluid(24, 32)} ${fluid(90, 160)}`, display:"flex", justifyContent:"center", alignItems:"center", overflow:"visible" }}>
         <div style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"center", gap: fluid(40, 111), width:"100%", maxWidth:1152, minHeight: isDesktop ? fluid(420, 560) : "auto" }}>
           <div data-reveal style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", gap:24, flex:1, width:"100%", alignSelf:"stretch" }}>
             <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", alignSelf:"flex-start" }}>For Children and Educators</div>
-            <h2 style={{ fontWeight:900, fontSize: fluid(24, 36), lineHeight:"1.1", color:"#006E1C", textAlign:"left", margin:0, width:"100%" }}>Kids' Creative Activities</h2>
+            <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"left", margin:0, width:"100%" }}>Kids' Creative Activities</h2>
             <p style={{ fontWeight:400, fontSize: 19, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>Download, print and use these activities to introduce children to toads and their habitats.</p>
             {isDesktop && (
               <video autoPlay muted loop playsInline preload="auto"
@@ -671,7 +772,7 @@ export default function App() {
       </div>
 
       {/* ── FOOTER ── */}
-      <div id="site-footer" style={{ position:"relative", height: isDesktop ? fluid(280, 340) : 380, overflow:"hidden", maxWidth:1920, margin:"0 auto", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
+      <div id="site-footer" style={{ position:"relative", width:"100%", height: isDesktop ? fluid(280, 340) : 380, overflow:"hidden", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage: "url(/bg_FOOTER2.jpg)", backgroundSize: "cover", backgroundPosition: "center", zIndex:0 }} />
         <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1720, borderRadius:24, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.22)", boxShadow:"0 15px 30px -10px rgba(0,0,0,0.4)", padding: `${fluid(24, 32)} ${fluid(24, 40)}`, boxSizing:"border-box", display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap:16 }}>
           <div style={{ display:"flex", flexDirection:"row", gap:24, alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
