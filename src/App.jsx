@@ -825,36 +825,44 @@ export default function App() {
       {/* ── FOOTER ── */}
       <div id="site-footer" style={{ position:"relative", width:"100%", height: isDesktop ? fluid(280, 340) : 380, overflow:"hidden", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage: "url(/bg_FOOTER2.jpg)", backgroundSize: "cover", backgroundPosition: "center", zIndex:0 }} />
-        <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1720, borderRadius:24, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.22)", boxShadow:"0 15px 30px -10px rgba(0,0,0,0.4)", padding: `${fluid(24, 32)} ${fluid(24, 40)}`, boxSizing:"border-box", display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap:16 }}>
-          <div style={{ display:"flex", flexDirection:"row", gap:24, alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
-            <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer"
-              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-              Instagram
-            </a>
-            <a href="mailto:zisraelreptiles@gmail.com"
-              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#fff" strokeWidth="2"/><path d="M3 6.5L12 13L21 6.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              zisraelreptiles@gmail.com
-            </a>
+        <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1720, borderRadius:24, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.22)", boxShadow:"0 15px 30px -10px rgba(0,0,0,0.4)", padding: `${fluid(24, 32)} ${fluid(24, 40)}`, boxSizing:"border-box", display:"flex", flexDirection:"column", gap: layout(16, 10) }}>
+          <div style={{ display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap: layout(16, 8) }}>
+            <div style={{ display:"flex", flexDirection:"row", gap: layout(24, 10), alignItems:"center", flexWrap:"wrap", justifyContent: layout("flex-start", "center") }}>
+              <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer"
+                style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                Instagram
+              </a>
+              <a href="mailto:zisraelreptiles@gmail.com"
+                style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#fff" strokeWidth="2"/><path d="M3 6.5L12 13L21 6.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                zisraelreptiles@gmail.com
+              </a>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15" rx="8" ry="6" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="16" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="0.7" fill="#fff"/><circle cx="16" cy="8" r="0.7" fill="#fff"/></svg>
+              <span style={{ fontWeight:700, fontSize: 19, color:"#fff" }}>International Toad Day</span>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap: layout(16, 8), flexWrap:"wrap", justifyContent: layout("flex-end", "center") }}>
+              <span style={{ fontWeight:700, fontSize: 17, color:"#fff" }}>© israelreptiles. All rights reserved.</span>
+              <a href="https://www.israelreptiles.co.il" target="_blank" rel="noopener noreferrer"
+                style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" strokeWidth="1.8"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" stroke="currentColor" strokeWidth="1.8"/></svg>
+                www.israelreptiles.co.il
+              </a>
+              <a href="https://www.facebook.com/reptilesofisrael" target="_blank" rel="noopener noreferrer"
+                style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14V7c0-1 .3-1.5 1.8-1.5H18V2h-2.7C12 2 11 3.6 11 6.3v3.2H9v4h2V22h3z"/></svg>
+                Facebook
+              </a>
+              <img src="/logo.png" alt="Reptiles of Israel" style={{ width:36, height:36, objectFit:"contain", flexShrink:0 }} />
+            </div>
           </div>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15" rx="8" ry="6" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="16" cy="8" r="2.3" stroke="#fff" strokeWidth="1.6"/><circle cx="8" cy="8" r="0.7" fill="#fff"/><circle cx="16" cy="8" r="0.7" fill="#fff"/></svg>
-            <span style={{ fontWeight:700, fontSize: 19, color:"#fff" }}>International Toad Day</span>
-          </div>
-          <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap", justifyContent: layout("flex-end", "center") }}>
-            <span style={{ fontWeight:700, fontSize: 17, color:"#fff" }}>© israelreptiles. All rights reserved.</span>
-            <a href="https://www.israelreptiles.co.il" target="_blank" rel="noopener noreferrer"
-              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" strokeWidth="1.8"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" stroke="currentColor" strokeWidth="1.8"/></svg>
-              www.israelreptiles.co.il
-            </a>
-            <a href="https://www.facebook.com/reptilesofisrael" target="_blank" rel="noopener noreferrer"
-              style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 17, color:"#fff", textDecoration:"none", cursor:"pointer" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14V7c0-1 .3-1.5 1.8-1.5H18V2h-2.7C12 2 11 3.6 11 6.3v3.2H9v4h2V22h3z"/></svg>
-              Facebook
-            </a>
-            <img src="/logo.png" alt="Reptiles of Israel" style={{ width:36, height:36, objectFit:"contain", flexShrink:0 }} />
+          <div style={{ width:"100%", borderTop:"1px solid rgba(255,255,255,0.2)", paddingTop: layout(12, 8), display:"flex", justifyContent:"center" }}>
+            <span style={{ display:"inline-flex", alignItems:"center", gap:6, fontWeight:400, fontSize: 14, color:"#fff" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#4ADE80"><path d="M12 21s-6.7-4.35-9.5-8.36C.7 9.87 1.4 6.2 4.4 4.7c2.4-1.2 5-.4 6.6 1.6.6.7 1 .7 1.6 0 1.6-2 4.2-2.8 6.6-1.6 3 1.5 3.7 5.17 1.9 7.94C18.7 16.65 12 21 12 21z"/></svg>
+              Created by <a href="https://www.saritzobel.co.il/" target="_blank" rel="noopener noreferrer" style={{ color:"#94F990", fontWeight:700, textDecoration:"none" }}>Sarit Zobel</a>
+            </span>
           </div>
         </div>
       </div>
