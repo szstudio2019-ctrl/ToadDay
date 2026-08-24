@@ -709,7 +709,7 @@ export default function App() {
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Recognition & Participation</h2>
         </div>
 
-        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), flexWrap: layout("wrap", "nowrap"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1100 }}>
+        <div data-reveal-group style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"stretch", gap: fluid(16, 24), width:"100%", maxWidth:1600 }}>
 
           {[
             {
@@ -742,7 +742,7 @@ export default function App() {
               ],
             },
           ].map((card) => (
-            <div key={card.title} className="recog-card" style={{ position:"relative", flex: layout("0 1 calc(50% - 12px)", "1 1 auto"), border:"1px solid rgba(0,110,28,0.25)", borderRadius:20, padding: fluid(20, 28), display:"flex", flexDirection:"column", boxSizing:"border-box", transition:"border-color 0.4s ease, background 0.4s ease" }}>
+            <div key={card.title} className="recog-card" style={{ position:"relative", flex:1, border:"1px solid rgba(0,110,28,0.25)", borderRadius:20, padding: fluid(20, 28), display:"flex", flexDirection:"column", boxSizing:"border-box", transition:"border-color 0.4s ease, background 0.4s ease" }}>
               <div style={{ position:"absolute", top:-18, right:-18, width:44, height:44, borderRadius:9999, background:"#fff" }} />
               <div className="recog-plus" style={{ position:"absolute", top:-16, right:-16, width:36, height:36, borderRadius:9999, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.25)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 20px -8px rgba(0,60,15,0.5)" }}>
                 <svg width="16" height="17" viewBox="0 0 20 21" fill="none">
@@ -751,7 +751,7 @@ export default function App() {
                 </svg>
               </div>
               <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12 }}>
-                <h3 style={{ fontWeight:800, fontSize: fluid(18, 21), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left", width:"100%" }}>{card.title}</h3>
+                <h3 style={{ fontWeight:800, fontSize: fluid(17, 20), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left", width:"100%" }}>{card.title}</h3>
               </div>
               <div className="recog-desc" style={{ overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
                 {card.text && <p style={{ fontWeight:400, fontSize:15, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>{card.text}</p>}
