@@ -9,6 +9,7 @@ const G = { dark: "#1a4a1a", mid: "#2d7a2d", btn: "#006E1C", accent: "#4caf50" }
 const ff = "'Heebo', sans-serif";
 const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
+const FACT_SEQ_FRAME_COUNT = 120;
 
 const kidsSlides = [
   { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 1.8 },
@@ -86,6 +87,10 @@ export default function App() {
   const factsRingRef = useRef(null);
   const navMenuRef = useRef(null);
   const navBtnRef = useRef(null);
+  const factSeqSectionRef = useRef(null);
+  const factCanvasRef = useRef(null);
+  const factFramesRef = useRef([]);
+  const factFrameIdxRef = useRef(0);
 
   // Structural layout switch: tablets (<1024) get the safer stacked layout,
   // laptops and up (≥1024) get the side-by-side desktop layout.
@@ -316,6 +321,45 @@ export default function App() {
     return () => trigger.kill();
   }, [isDesktop]);
 
+  // Surprising Fact: preload the toad video frame sequence, then draw
+  // whichever frame matches the current scroll progress through the section.
+  const drawFactFrame = (idx) => {
+    const canvas = factCanvasRef.current;
+    const img = factFramesRef.current[idx];
+    if (!canvas || !img || !img.complete || !img.naturalWidth) return;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
+
+  useEffect(() => {
+    const images = new Array(FACT_SEQ_FRAME_COUNT);
+    for (let i = 0; i < FACT_SEQ_FRAME_COUNT; i++) {
+      const img = new Image();
+      img.src = `/sequences/toad-fact/frame-${String(i + 1).padStart(4, "0")}.jpg`;
+      if (i === 0) img.onload = () => drawFactFrame(0);
+      images[i] = img;
+    }
+    factFramesRef.current = images;
+  }, []);
+
+  useEffect(() => {
+    const section = factSeqSectionRef.current;
+    if (!section) return;
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        const idx = Math.min(FACT_SEQ_FRAME_COUNT - 1, Math.max(0, Math.round(self.progress * (FACT_SEQ_FRAME_COUNT - 1))));
+        if (idx !== factFrameIdxRef.current) {
+          factFrameIdxRef.current = idx;
+          drawFactFrame(idx);
+        }
+      },
+    });
+    return () => trigger.kill();
+  }, []);
+
   const castVote = () => {
     if (voted) return;
     setVoted(true);
@@ -518,13 +562,18 @@ export default function App() {
           </div>
         </div>
 
-        {/* Surprising fact — plain */}
-        <div id="surprising-fact" data-reveal style={{ background: "#F6FFF5", width: "100%", display: "flex", justifyContent: "center" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: layout(`${fluid(160, 200)} ${fluid(24, 96)} ${fluid(98, 138)}`, `${fluid(48, 64)} ${fluid(24, 32)}`), width: "100%", maxWidth: 1300, boxSizing: "border-box", textAlign: "center" }}>
-            <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
-            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
-            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Israel has only one true toad species: the Green Toad (<i>Bufotes viridis</i>). Although it is sometimes confused with other amphibians, it is the country's only representative of the true toad family, Bufonidae.</p>
-            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
+        {/* Surprising fact — text left, scroll-scrubbed toad sequence right */}
+        <div id="surprising-fact" ref={factSeqSectionRef} data-reveal style={{ background: "#F6FFF5", width: "100%", display: "flex", justifyContent: "center" }}>
+          <div style={sectionContainer({ display: "flex", flexDirection: layout("row", "column"), alignItems: "center", gap: fluid(40, 64), maxWidth: 1500, padding: `${layout(fluid(160, 200), fluid(48, 64))} ${fluid(24, 96)} ${layout(fluid(160, 200), fluid(48, 64))}` })}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, flexShrink: 0, width: layout(420, "100%"), textAlign: "left" }}>
+              <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
+              <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
+              <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>Israel has only one true toad species: the Green Toad (<i>Bufotes viridis</i>). Although it is sometimes confused with other amphibians, it is the country's only representative of the true toad family, Bufonidae.</p>
+              <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
+            </div>
+            <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "center" }}>
+              <canvas ref={factCanvasRef} width={960} height={540} style={{ width: "100%", maxWidth: layout(900, 480), height: "auto", display: "block", mixBlendMode: "multiply", maskImage: "radial-gradient(ellipse 68% 68% at center, #000 55%, transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 68% 68% at center, #000 55%, transparent 100%)" }} />
+            </div>
           </div>
         </div>
       </div>
