@@ -567,7 +567,7 @@ export default function App() {
 
         {/* Surprising fact — text left, scroll-scrubbed toad sequence right */}
         <div id="surprising-fact" ref={factSeqSectionRef} data-reveal style={{ background: "#F6FFF5", width: "100%", display: "flex", justifyContent: "center" }}>
-          <div style={sectionContainer({ display: "flex", flexDirection: layout("row", "column"), alignItems: "center", gap: fluid(40, 64), padding: `${layout(fluid(160, 200), fluid(48, 64))} ${fluid(24, 96)} ${layout(fluid(160, 200), fluid(48, 64))}` })}>
+          <div style={sectionContainer({ display: "flex", flexDirection: layout("row", "column"), alignItems: "center", gap: fluid(40, 64), padding: `${layout(fluid(80, 110), fluid(40, 56))} ${fluid(24, 96)} ${layout(fluid(80, 110), fluid(40, 56))}` })}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, flexShrink: 0, width: layout(420, "100%"), textAlign: "left" }}>
               <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
               <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
@@ -575,7 +575,7 @@ export default function App() {
               <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
             </div>
             <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "center" }}>
-              <canvas ref={factCanvasRef} width={520} height={520} style={{ width: "100%", maxWidth: layout(620, 460), height: "auto", display: "block", maskImage: "radial-gradient(circle closest-side at center, #000 80%, rgba(0,0,0,0.5) 92%, transparent 100%)", WebkitMaskImage: "radial-gradient(circle closest-side at center, #000 80%, rgba(0,0,0,0.5) 92%, transparent 100%)" }} />
+              <canvas ref={factCanvasRef} width={520} height={520} style={{ width: "100%", maxWidth: layout(460, 380), height: "auto", display: "block", maskImage: "radial-gradient(circle closest-side at center, #000 80%, rgba(0,0,0,0.5) 92%, transparent 100%)", WebkitMaskImage: "radial-gradient(circle closest-side at center, #000 80%, rgba(0,0,0,0.5) 92%, transparent 100%)" }} />
             </div>
           </div>
         </div>
