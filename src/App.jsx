@@ -639,7 +639,7 @@ export default function App() {
       </div>
 
       {/* ── JOIN THE CELEBRATION ── */}
-      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: 44, boxSizing:"border-box" }}>
+      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -584, boxSizing:"border-box" }}>
         <div data-reveal style={{ width:"100%", maxWidth:900, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:24, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.4)", padding: fluid(32, 48), display:"flex", flexDirection:"column", alignItems:"center", gap:16, textAlign:"center", boxSizing:"border-box" }}>
           <span style={{ fontWeight:700, fontSize:14, letterSpacing:2, textTransform:"uppercase", color:"#94F990" }}>International Toad Day 2027</span>
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>Join the Celebration Around the World</h2>
