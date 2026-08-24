@@ -66,6 +66,7 @@ export default function App() {
   const [factsRevealed, setFactsRevealed] = useState(0);
   const [navOpen, setNavOpen] = useState(false);
   const heroImgRef = useRef(null);
+  const whyDayVideoRef = useRef(null);
   const voteVideoRef = useRef(null);
   const storySectionRef = useRef(null);
   const heroBadgeRef = useRef(null);
@@ -166,6 +167,19 @@ export default function App() {
 
   useLayoutEffect(() => {
     if (bioVideoRef.current) gsap.set(bioVideoRef.current, { scale: 1.15, transformOrigin: "50% 50%" });
+  }, []);
+
+  // Some mobile browsers don't honor the autoplay attribute reliably for this
+  // background video, leaving it loaded but paused; force playback once it has
+  // enough data (calling play() at mount, before it's buffered, can silently
+  // fail and leave it stuck paused).
+  useEffect(() => {
+    const el = whyDayVideoRef.current;
+    if (!el) return;
+    const tryPlay = () => el.play().catch(() => {});
+    if (el.readyState >= 3) tryPlay();
+    el.addEventListener("canplay", tryPlay);
+    return () => el.removeEventListener("canplay", tryPlay);
   }, []);
 
   // Nav dropdown: scale/fade the panel in and stagger its links each time it opens.
@@ -490,7 +504,7 @@ export default function App() {
 
         {/* Why the toad needs its own day — full-width video background card */}
         <div id="why-day" data-reveal style={{ position: "relative", width: "100%", minHeight: fluid(750, 1080), overflow: "hidden", borderRadius: layout(24, 0), display: "flex", alignItems: layout("flex-start", "center"), justifyContent: "flex-start", paddingTop: layout(120, 0), boxSizing: "border-box" }}>
-          <video autoPlay muted loop playsInline
+          <video ref={whyDayVideoRef} autoPlay muted loop playsInline
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, transform: "scaleX(-1)" }}>
             <source src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" type="video/mp4" />
           </video>
@@ -608,6 +622,10 @@ export default function App() {
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%", maxWidth: 1176 }}>
+              <div data-reveal style={{ position: "relative", width: "100%", height: 300, overflow: "hidden", borderRadius: 16 }}>
+                <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%", mixBlendMode: "multiply" }} />
+              </div>
               <div data-reveal-group style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ fontWeight: 800, fontSize: 19, color: "#006E1C", textAlign: "center", marginBottom: 8 }}>🦎 True Toad - typically</div>
                 {vsPairs.map((p, i) => (
@@ -747,7 +765,7 @@ export default function App() {
       </div>
 
       {/* ── KIDS ACTIVITY ── */}
-      <div id="kids" style={{ position:"relative", zIndex:2, background:"#F6FFF5", padding: `${fluid(60, 128)} ${fluid(24, 32)} ${fluid(90, 160)}`, display:"flex", justifyContent:"center", alignItems:"center", overflow:"visible" }}>
+      <div id="kids" style={{ position:"relative", zIndex:2, background:"#F6FFF5", padding: `${fluid(60, 128)} ${fluid(24, 32)} ${fluid(90, 160)}`, display:"flex", flexDirection: layout("row", "column"), justifyContent:"center", alignItems:"center", overflow:"visible" }}>
         <div style={{ display:"flex", flexDirection: layout("row", "column"), alignItems:"center", gap: fluid(40, 111), width:"100%", maxWidth:1152, minHeight: isDesktop ? fluid(420, 560) : "auto" }}>
           <div data-reveal style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", gap:24, flex:1, width:"100%", alignSelf:"stretch" }}>
             <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", alignSelf:"flex-start" }}>For Children and Educators</div>
@@ -794,6 +812,14 @@ export default function App() {
           </div>
         </div>
 
+        {!isDesktop && (
+          <div data-reveal style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 24, marginBottom: -100 }}>
+            <video autoPlay muted loop playsInline preload="auto" style={{ height: 200, width: "auto", transform: "scaleX(-1)" }}>
+              <source src="/toad_jump_alpha.webm" type="video/webm" />
+              <source src="/toad_jump_compressed.mp4" type="video/mp4" />
+            </video>
+          </div>
+        )}
       </div>
 
       {/* ── FOOTER ── */}
