@@ -221,6 +221,24 @@ export default function App() {
     return () => ctx.revert();
   }, [isDesktop]);
 
+  // Headings and body text start half-transparent and scrub to full opacity as
+  // they cross the viewport, reversing smoothly when scrolling back up (tied
+  // directly to scroll position, not a one-time trigger).
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray("h1, h2, h3, p").forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0.35 },
+          {
+            opacity: 1, ease: "none",
+            scrollTrigger: { trigger: el, start: "top 95%", end: "top 55%", scrub: true },
+          }
+        );
+      });
+    });
+    return () => ctx.revert();
+  }, [isDesktop]);
+
   // Vote counter: count up from its current value to the real vote total once the
   // section scrolls into view, then stays in sync with live votes afterward.
   useEffect(() => {
@@ -425,7 +443,7 @@ export default function App() {
       {/* ── WHY TOAD ── */}
       <div id="our-story" ref={storySectionRef} style={{ background: "#FBF9F8", display: "flex", flexDirection: "column", alignItems: "center", padding: `${fluid(80, 120)} 0 ${fluid(60, 100)}` }}>
         <div data-reveal style={sectionContainer({ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, marginBottom: fluid(24, 40) })}>
-          <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
+          <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Our Story</div>
         </div>
         <div style={sectionContainer({ display: "flex", flexDirection: layout("row-reverse", "column"), alignItems: "center", gap: fluid(40, 64) })}>
 
@@ -485,11 +503,13 @@ export default function App() {
         </div>
 
         {/* Surprising fact — plain */}
-        <div id="surprising-fact" data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: layout(`${fluid(160, 200)} ${fluid(24, 96)} ${fluid(98, 138)}`, `${fluid(48, 64)} ${fluid(24, 32)}`), width: "100%", maxWidth: 1300, boxSizing: "border-box", textAlign: "center" }}>
-          <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
-          <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
-          <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Israel has only one true toad species: the Green Toad (<i>Bufotes viridis</i>). Although it is sometimes confused with other amphibians, it is the country's only representative of the true toad family, Bufonidae.</p>
-          <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
+        <div id="surprising-fact" data-reveal style={{ background: "#F6FFF5", width: "100%", display: "flex", justifyContent: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: layout(`${fluid(160, 200)} ${fluid(24, 96)} ${fluid(98, 138)}`, `${fluid(48, 64)} ${fluid(24, 32)}`), width: "100%", maxWidth: 1300, boxSizing: "border-box", textAlign: "center" }}>
+            <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>A Surprising Fact</div>
+            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0, width: "100%" }}>Israel has only one true toad species</h2>
+            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Israel has only one true toad species: the Green Toad (<i>Bufotes viridis</i>). Although it is sometimes confused with other amphibians, it is the country's only representative of the true toad family, Bufonidae.</p>
+            <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "center", margin: 0, maxWidth: 760 }}>Protecting Israel's toads therefore means protecting an entire, unique species and an irreplaceable part of the local ecosystem.</p>
+          </div>
         </div>
       </div>
 
@@ -503,7 +523,7 @@ export default function App() {
 
             <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1200, margin: "0 auto", padding: `0 ${fluid(24, 48)}`, boxSizing: "border-box", display: "flex", flexDirection: layout("row", "column"), alignItems: "center", justifyContent: "space-between", gap: fluid(32, 64) }}>
               <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: layout("flex-start", "center"), gap: 12, maxWidth: layout(440, "100%"), textAlign: layout("left", "center") }}>
-                <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Must-Know Facts</div>
+                <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Must-Know Facts</div>
                 <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", textAlign: layout("left","center"), margin:0, width:"100%", textShadow:"0 2px 12px rgba(0,0,0,0.35)" }}>Facts You Need to Know About the Toad</h2>
                 <p style={{ fontWeight:500, fontSize: 19, lineHeight:"24px", color:"#fff", textAlign: layout("left","center"), margin:0, textShadow:"0 2px 8px rgba(0,0,0,0.3)" }}>Turns out they're so much more than we thought. Meet the superhero of the garden.</p>
               </div>
@@ -541,11 +561,11 @@ export default function App() {
       </div>
 
       {/* ── VS ── */}
-      <div id="toad-or-frog" style={{ background: "#fff", padding: `${fluid(40, 44)} ${fluid(16, 32)}` }}>
+      <div id="toad-or-frog" style={{ position: "relative", zIndex: 2, background: "#fff", padding: `${fluid(40, 44)} ${fluid(16, 32)}` }}>
         <div style={{ maxWidth: 1300, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
           {!isDesktop && (
             <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
-              <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
+              <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
               <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
             </div>
           )}
@@ -559,7 +579,7 @@ export default function App() {
                   ))}
                 </div>
                 <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-                  <div style={{ background: "#D9E6DA", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#5B675E", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
+                  <div style={{ background: "#C4FEC2", borderRadius: 9999, padding: "4px 16px", fontWeight: 700, fontSize: 14, color: "#006E1C", textTransform: "uppercase", letterSpacing: 1 }}>Know the Difference</div>
                   <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "center", margin: 0 }}>Toad or Frog?</h2>
                 </div>
 
@@ -603,9 +623,12 @@ export default function App() {
             </div>
           )}
 
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0) }}>
-            <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.5", color: "#3F4A3C", margin: 0 }}>These are useful general tendencies, not strict scientific rules. "Frog" and "toad" are common names within the same order.</p>
-            <a href="https://www.israelreptiles.co.il/%d7%9e%d7%92%d7%93%d7%99%d7%a8-%d7%93%d7%95-%d7%97%d7%99%d7%99%d7%9d/" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, fontSize: 14, color: "#006E1C" }}>Explore the complete Israel amphibian guide.</a>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0), marginBottom: layout(-90, 0), padding: fluid(24, 32), boxSizing: "border-box", background: "rgba(0,90,24,0.55)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)" }}>
+            <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.5", color: "rgba(255,255,255,0.9)", margin: 0 }}>These are useful general tendencies, not strict scientific rules. "Frog" and "toad" are common names within the same order.</p>
+            <a href="https://www.israelreptiles.co.il/%d7%9e%d7%92%d7%93%d7%99%d7%a8-%d7%93%d7%95-%d7%97%d7%99%d7%99%d7%9d/" target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: G.btn, color: "#fff", border: "none", borderRadius: 9999, padding: `${fluid(14, 18)} ${fluid(28, 44)}`, fontFamily: ff, fontWeight: 700, fontSize: fluid(16, 20), cursor: "pointer", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.15)", textDecoration: "none" }}>
+              Explore the complete Israel amphibian guide
+            </a>
           </div>
         </div>
       </div>
@@ -663,7 +686,7 @@ export default function App() {
           }
         `}</style>
         <div data-reveal style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, width:"100%", maxWidth:900, textAlign:"center", marginBottom: fluid(40, 56) }}>
-          <div style={{ background:"#D9E6DA", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#5B675E", textTransform:"uppercase", letterSpacing:1 }}>Recognition</div>
+          <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", textTransform:"uppercase", letterSpacing:1 }}>Recognition</div>
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Recognition & Participation</h2>
         </div>
 
