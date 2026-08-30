@@ -663,11 +663,11 @@ export default function App() {
                   </div>
                 </div>
 
-                <div style={{ position: "relative", width: "100%", height: 660, margin: "0 auto" }}>
+                <div style={{ position: "relative", width: "100%", height: "clamp(360px, 52vh, 660px)", margin: "0 auto" }}>
                   {/* VS text */}
                   {/* frogs video */}
                   <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
-                    style={{ position:"absolute", left:0, top:45, width:"100%", height:615, objectFit:"cover", objectPosition:"center 65%", mixBlendMode:"multiply", zIndex:2, borderRadius:16,
+                    style={{ position:"absolute", left:0, top:"6.8%", width:"100%", height:"93.2%", objectFit:"cover", objectPosition:"center 65%", mixBlendMode:"multiply", zIndex:2, borderRadius:16,
                       maskImage: "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%)",
                       WebkitMaskImage: "linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%)" }} />
                   <div style={{ position:"absolute", left:"50%", top:0, transform:"translateX(-50%)", fontWeight:900, fontSize:388, lineHeight:"432px", background:"linear-gradient(180deg,#C4FEC2 31.86%,#E2FEE0 47.33%,#fff 73.48%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", zIndex:1, userSelect:"none", whiteSpace:"nowrap" }}>VS</div>
@@ -695,7 +695,7 @@ export default function App() {
             </div>
           )}
 
-          <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, maxWidth: 700, textAlign: "center", marginTop: layout(-80, 0), marginBottom: 0, padding: fluid(24, 32), boxSizing: "border-box" }}>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 20, maxWidth: 700, textAlign: "center", marginTop: layout(-20, 0), marginBottom: 0, padding: fluid(24, 32), boxSizing: "border-box" }}>
             <p style={{ fontWeight: 400, fontSize: 17, lineHeight: "1.5", color: "#3F4A3C", margin: 0 }}>These are useful general tendencies, not strict scientific rules. "Frog" and "toad" are common names within the same order.</p>
             <a href="https://www.israelreptiles.co.il/%d7%9e%d7%92%d7%93%d7%99%d7%a8-%d7%93%d7%95-%d7%97%d7%99%d7%99%d7%9d/" target="_blank" rel="noopener noreferrer"
               style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(0,90,24,0.55)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", borderRadius: 9999, padding: `${fluid(14, 18)} ${fluid(28, 44)}`, fontFamily: ff, fontWeight: 700, fontSize: fluid(16, 20), cursor: "pointer", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.15)", textDecoration: "none" }}>
@@ -789,8 +789,8 @@ export default function App() {
               title: "International\nListings",
               text: "International Toad Day is also included in environmental and international awareness-day listings:",
               items: [
-                "Wikipedia – List of Environmental Dates",
-                "Hebrew Wikipedia – International Observance Days",
+                { text: "Wikipedia – List of Environmental Dates", href: "https://en.wikipedia.org/wiki/List_of_environmental_dates" },
+                { text: "Hebrew Wikipedia – International Observance Days", href: "https://he.wikipedia.org/wiki/%D7%9E%D7%95%D7%A2%D7%93%D7%99%D7%9D_%D7%91%D7%99%D7%9F-%D7%9C%D7%90%D7%95%D7%9E%D7%99%D7%99%D7%9D" },
               ],
             },
           ].map((card) => (
