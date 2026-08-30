@@ -10,6 +10,7 @@ const ff = "'Heebo', sans-serif";
 const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 const FACT_SEQ_FRAME_COUNT = 120;
+const BASE_VOTE_COUNT = 43851;
 
 const kidsSlides = [
   // GNDyrR4.png has a transparent margin baked into the top ~25% and bottom ~15% of the
@@ -66,10 +67,10 @@ export default function App() {
     try { return localStorage.getItem("toadDayVoted") === "true"; } catch { return false; }
   });
   const [count, setCount] = useState(() => {
-    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > 42851 ? stored : 42851; } catch { return 42851; }
+    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > BASE_VOTE_COUNT ? stored : BASE_VOTE_COUNT; } catch { return BASE_VOTE_COUNT; }
   });
   const [displayCount, setDisplayCount] = useState(() => {
-    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > 42851 ? stored : 42851; } catch { return 42851; }
+    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > BASE_VOTE_COUNT ? stored : BASE_VOTE_COUNT; } catch { return BASE_VOTE_COUNT; }
   });
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const [slide, setSlide] = useState(0);
@@ -87,7 +88,7 @@ export default function App() {
   const heroPRef = useRef(null);
   const heroBtnsRef = useRef(null);
   const counterRef = useRef(null);
-  const countObjRef = useRef({ val: 42851 });
+  const countObjRef = useRef({ val: BASE_VOTE_COUNT });
   const bioVideoRef = useRef(null);
   const vsScrollRef = useRef(null);
   const vsPillsRowRef = useRef(null);
