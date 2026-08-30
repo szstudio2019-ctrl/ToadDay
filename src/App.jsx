@@ -767,8 +767,8 @@ export default function App() {
             {
               title: "Institutional Recognition",
               items: [
-                "Israel Ministry of Education – Green Dates Calendar",
-                "The National Natural History Collections, The Hebrew University of Jerusalem",
+                { text: "Israel Ministry of Education – Green Dates Calendar", href: "https://pop.education.gov.il/sustainability-education/green-calendar/may/#pos_533770" },
+                { text: "The National Natural History Collections, The Hebrew University of Jerusalem", href: "https://nnhc.huji.ac.il/news/%D7%99%D7%95%D7%9D-%D7%94%D7%A7%D7%A8%D7%A4%D7%93%D7%94-%D7%94%D7%91%D7%99%D7%A0%D7%9C%D7%90%D7%95%D7%9E%D7%99-15-%D7%91%D7%9E%D7%90%D7%99" },
               ],
             },
             {
@@ -807,12 +807,20 @@ export default function App() {
               </div>
               <div className="recog-desc" style={{ overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
                 {card.text && <p style={{ fontWeight:400, fontSize:15, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>{card.text}</p>}
-                {card.items.map((t) => (
-                  <div key={t} style={{ display:"flex", alignItems:"flex-start", gap:8 }}>
-                    <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style={{ flexShrink:0, marginTop:3 }}><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#006E1C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    <span style={{ fontWeight:600, fontSize:15, lineHeight:"1.5", color:"#1B1C1C", textAlign:"left" }}>{t}</span>
-                  </div>
-                ))}
+                {card.items.map((it) => {
+                  const text = typeof it === "string" ? it : it.text;
+                  const href = typeof it === "string" ? null : it.href;
+                  return (
+                    <div key={text} style={{ display:"flex", alignItems:"flex-start", gap:8 }}>
+                      <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style={{ flexShrink:0, marginTop:3 }}><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#006E1C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      {href ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontWeight:600, fontSize:15, lineHeight:"1.5", color:"#1B1C1C", textAlign:"left", textDecoration:"underline", textDecorationColor:"rgba(27,28,28,0.35)" }}>{text}</a>
+                      ) : (
+                        <span style={{ fontWeight:600, fontSize:15, lineHeight:"1.5", color:"#1B1C1C", textAlign:"left" }}>{text}</span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
