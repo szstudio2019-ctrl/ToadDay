@@ -12,9 +12,13 @@ const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 const FACT_SEQ_FRAME_COUNT = 120;
 
 const kidsSlides = [
-  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 1.8 },
-  // coloring-page-en.png has built-in white margin around the artwork (unlike GNDyrR4.png,
-  // which bleeds to the edges), so objectFit:"cover" alone can't fill the frame with it.
+  // GNDyrR4.png has a transparent margin baked into the top ~25% and bottom ~15% of the
+  // file; on some mobile browsers transparent pixels can paint solid black instead of
+  // blending with the page, so zoom crops past that margin entirely rather than relying
+  // on the fallback background color alone.
+  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 2.1 },
+  // coloring-page-en.png has built-in white margin around the artwork, so objectFit:"cover"
+  // alone can't fill the frame with it.
   // zoom scales the image up inside its overflow:hidden card to crop that margin away.
   // Tune this value visually against the actual file if it doesn't look right yet.
   { img: "/coloring-page-en.png", alt: "English toad coloring page", file: "/international-toad-day-coloring-page.pdf", title: "English Coloring Page", text: "A new English printable featuring a toad\nin its natural habitat.", zoom: 1.4 },
@@ -525,7 +529,13 @@ export default function App() {
 
           {/* Left: text */}
           <div data-reveal style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 24, flex: 1, width: "100%" }}>
-            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>From an Israeli initiative to a<br />growing international day</h2>
+            <h2 style={{ fontWeight: 900, fontSize: fluid(26, 38), lineHeight: "1.1", color: "#006E1C", textAlign: "left", margin: 0, width: "100%" }}>
+              {isDesktop ? (
+                <>From an Israeli initiative to a<br />growing international day</>
+              ) : (
+                <>From an Israeli initiative<br />to a growing<br />international day</>
+              )}
+            </h2>
             <p style={{ fontWeight: 400, fontSize: 19, lineHeight: "1.7", color: "#3F4A3C", textAlign: "left", margin: 0 }}>International Toad Day was founded in Israel in 2026 by Avi Zobel and Reptiles of Israel. It was created to challenge old myths, give toads the recognition they deserve, and encourage education, research, and habitat conservation around the world.</p>
             <p style={{ fontWeight: 700, fontSize: 19, lineHeight: "1.7", color: "#1B1C1C", textAlign: "left", margin: 0 }}>The first International Toad Day was observed on May 15, 2026. During its inaugural year, it gained recognition from educational and natural-history institutions in Israel and was marked by nature, wildlife, and educational communities in several countries — laying the foundation for a new annual global tradition.</p>
           </div>
@@ -790,7 +800,7 @@ export default function App() {
               text: "International Toad Day is also included in environmental and international awareness-day listings:",
               items: [
                 { text: "Wikipedia – List of Environmental Dates", href: "https://en.wikipedia.org/wiki/List_of_environmental_dates" },
-                { text: "Hebrew Wikipedia – International Observance Days", href: "https://he.wikipedia.org/wiki/%D7%9E%D7%95%D7%A2%D7%93%D7%99%D7%9D_%D7%91%D7%99%D7%9F-%D7%9C%D7%90%D7%95%D7%9E%D7%99%D7%99%D7%9D" },
+                { text: "Hebrew Wikipedia – List of Environmental Dates", href: "https://he.wikipedia.org/wiki/%D7%9E%D7%95%D7%A2%D7%93%D7%99%D7%9D_%D7%91%D7%99%D7%9F-%D7%9C%D7%90%D7%95%D7%9E%D7%99%D7%99%D7%9D" },
               ],
             },
           ].map((card) => (
@@ -847,7 +857,7 @@ export default function App() {
             <div style={{ width:"100%", aspectRatio:"1 / 1", position:"relative" }}>
               {kidsSlides.map((s, i) => (
                 <div key={i} style={{ position:"absolute", inset:0, opacity: slide===i ? 1 : 0, transition:"opacity 0.4s", pointerEvents: slide===i ? "auto" : "none" }}>
-                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-8deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative" }}>
+                  <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-8deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative", background:"#F6FFF5" }}>
                     <img src={s.img} alt={s.alt} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transform: `scale(${s.zoom || 1})`, transformOrigin:"center" }} />
                     <a href={s.file} download style={{ position:"absolute", bottom:16, right:16, width:48, height:48, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.2)" }}>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
