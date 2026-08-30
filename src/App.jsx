@@ -765,7 +765,7 @@ export default function App() {
 
           {[
             {
-              title: "Institutional Recognition",
+              title: "Institutional\nRecognition",
               items: [
                 { text: "Israel Ministry of Education – Green Dates Calendar", href: "https://pop.education.gov.il/sustainability-education/green-calendar/may/#pos_533770" },
                 { text: "The National Natural History Collections, The Hebrew University of Jerusalem", href: "https://nnhc.huji.ac.il/news/%D7%99%D7%95%D7%9D-%D7%94%D7%A7%D7%A8%D7%A4%D7%93%D7%94-%D7%94%D7%91%D7%99%D7%A0%D7%9C%D7%90%D7%95%D7%9E%D7%99-15-%D7%91%D7%9E%D7%90%D7%99" },
@@ -786,7 +786,7 @@ export default function App() {
               items: ["Contact us to be included in the official list of participating organizations."],
             },
             {
-              title: "International Listings",
+              title: "International\nListings",
               text: "International Toad Day is also included in environmental and international awareness-day listings:",
               items: [
                 "Wikipedia – List of Environmental Dates",
@@ -803,7 +803,7 @@ export default function App() {
                 </svg>
               </div>
               <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12 }}>
-                <h3 style={{ fontWeight:800, fontSize: fluid(17, 20), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left", width:"100%" }}>{card.title}</h3>
+                <h3 style={{ fontWeight:800, fontSize: fluid(17, 20), lineHeight:"1.3", color:"#006E1C", margin:0, textAlign:"left", width:"100%", whiteSpace:"pre-line" }}>{card.title}</h3>
               </div>
               <div className="recog-desc" style={{ overflow:"hidden", display:"flex", flexDirection:"column", gap:10 }}>
                 {card.text && <p style={{ fontWeight:400, fontSize:15, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>{card.text}</p>}
