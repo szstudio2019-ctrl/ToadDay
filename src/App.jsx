@@ -691,7 +691,10 @@ export default function App() {
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%", mixBlendMode: "multiply" }} />
               </div>
               <div data-reveal-group style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ fontWeight: 800, fontSize: 19, color: "#006E1C", textAlign: "center", marginBottom: 8 }}>🦎 True Toad - typically</div>
+                <div style={{ fontWeight: 800, fontSize: 19, color: "#006E1C", textAlign: "center", marginBottom: 8, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15" rx="8" ry="6" stroke="#006E1C" strokeWidth="1.6"/><circle cx="8" cy="8" r="2.3" stroke="#006E1C" strokeWidth="1.6"/><circle cx="16" cy="8" r="2.3" stroke="#006E1C" strokeWidth="1.6"/><circle cx="8" cy="8" r="0.7" fill="#006E1C"/><circle cx="16" cy="8" r="0.7" fill="#006E1C"/></svg>
+                  True Toad - typically
+                </div>
                 {vsPairs.map((p, i) => (
                   <div key={i} {...cardHover} style={{ background:"rgba(0,110,28,0.55)", backdropFilter:"blur(12px)", WebkitBackdropFilter:"blur(12px)", borderRadius:9999, padding:"14px 20px", fontWeight:700, fontSize:fluid(15, 18), letterSpacing:1, color:"#fff", textAlign:"center", whiteSpace:"pre-line", boxShadow:"0 10px 25px -10px rgba(0,60,15,0.35)" }}>{p.toad}</div>
                 ))}
@@ -887,7 +890,7 @@ export default function App() {
         </div>
 
         {!isDesktop && (
-          <div data-reveal style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 24, marginBottom: -100 }}>
+          <div data-reveal style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 24, marginBottom: -355 }}>
             <video autoPlay muted loop playsInline preload="auto" style={{ height: 320, width: "auto", transform: "scaleX(-1)" }}>
               <source src="/toad_jump_alpha.webm" type="video/webm" />
               <source src="/toad_jump_compressed.mp4" type="video/mp4" />
@@ -897,7 +900,7 @@ export default function App() {
       </div>
 
       {/* ── FOOTER ── */}
-      <div id="site-footer" style={{ position:"relative", width:"100%", height: isDesktop ? fluid(280, 340) : 380, overflow:"hidden", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
+      <div id="site-footer" style={{ position:"relative", width:"100%", height: isDesktop ? fluid(280, 340) : 460, overflow:"hidden", display:"flex", alignItems:"flex-end", justifyContent:"center", padding: `${fluid(16, 24)} ${fluid(24, 48)}`, boxSizing:"border-box" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage: "url(/bg_FOOTER2.jpg)", backgroundSize: "cover", backgroundPosition: "center", zIndex:0 }} />
         <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1720, borderRadius:24, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(14px)", WebkitBackdropFilter:"blur(14px)", border:"1px solid rgba(255,255,255,0.22)", boxShadow:"0 15px 30px -10px rgba(0,0,0,0.4)", padding: `${fluid(24, 32)} ${fluid(24, 40)}`, boxSizing:"border-box", display:"flex", flexDirection:"column", gap: layout(16, 10) }}>
           <div style={{ display:"flex", flexDirection: layout("row", "column"), justifyContent:"space-between", alignItems:"center", gap: layout(16, 8) }}>
