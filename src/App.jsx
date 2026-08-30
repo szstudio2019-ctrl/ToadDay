@@ -858,7 +858,7 @@ export default function App() {
               {kidsSlides.map((s, i) => (
                 <div key={i} style={{ position:"absolute", inset:0, opacity: slide===i ? 1 : 0, transition:"opacity 0.4s", pointerEvents: slide===i ? "auto" : "none" }}>
                   <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-8deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative", background:"#F6FFF5" }}>
-                    <img src={s.img} alt={s.alt} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transform: `scale(${s.zoom || 1})`, transformOrigin:"center" }} />
+                    <div role="img" aria-label={s.alt} style={{ width:"100%", height:"100%", backgroundImage:`url(${s.img})`, backgroundSize:"cover", backgroundPosition:"center", backgroundRepeat:"no-repeat", transform: `scale(${s.zoom || 1})`, transformOrigin:"center" }} />
                     <a href={s.file} download style={{ position:"absolute", bottom:16, right:16, width:48, height:48, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.2)" }}>
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </a>
