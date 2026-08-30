@@ -62,9 +62,15 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 }
 
 export default function App() {
-  const [voted, setVoted] = useState(false);
-  const [count, setCount] = useState(42851);
-  const [displayCount, setDisplayCount] = useState(42851);
+  const [voted, setVoted] = useState(() => {
+    try { return localStorage.getItem("toadDayVoted") === "true"; } catch { return false; }
+  });
+  const [count, setCount] = useState(() => {
+    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > 42851 ? stored : 42851; } catch { return 42851; }
+  });
+  const [displayCount, setDisplayCount] = useState(() => {
+    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > 42851 ? stored : 42851; } catch { return 42851; }
+  });
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const [slide, setSlide] = useState(0);
   const [vsIndex, setVsIndex] = useState(0);
@@ -370,11 +376,13 @@ export default function App() {
   const castVote = () => {
     if (voted) return;
     setVoted(true);
+    try { localStorage.setItem("toadDayVoted", "true"); } catch {}
     gsap.killTweensOf(countObjRef.current);
     setCount((c) => {
       const next = c + 1;
       countObjRef.current.val = next;
       setDisplayCount(next);
+      try { localStorage.setItem("toadDayCount", String(next)); } catch {}
       return next;
     });
   };
