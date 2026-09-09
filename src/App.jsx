@@ -69,9 +69,7 @@ export default function App() {
   const [count, setCount] = useState(() => {
     try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > BASE_VOTE_COUNT ? stored : BASE_VOTE_COUNT; } catch { return BASE_VOTE_COUNT; }
   });
-  const [displayCount, setDisplayCount] = useState(() => {
-    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > BASE_VOTE_COUNT ? stored : BASE_VOTE_COUNT; } catch { return BASE_VOTE_COUNT; }
-  });
+  const [displayCount, setDisplayCount] = useState(0);
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const [slide, setSlide] = useState(0);
   const [vsIndex, setVsIndex] = useState(0);
@@ -88,7 +86,7 @@ export default function App() {
   const heroPRef = useRef(null);
   const heroBtnsRef = useRef(null);
   const counterRef = useRef(null);
-  const countObjRef = useRef({ val: BASE_VOTE_COUNT });
+  const countObjRef = useRef({ val: 0 });
   const bioVideoRef = useRef(null);
   const vsScrollRef = useRef(null);
   const vsPillsRowRef = useRef(null);
