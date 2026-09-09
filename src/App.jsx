@@ -852,9 +852,9 @@ export default function App() {
 
       {/* ── IN THE MEDIA ── */}
       <div id="in-the-media" style={{ background:"#F6FFF5", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(80, 120)} ${fluid(24, 96)}`, boxSizing:"border-box" }}>
+        <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0, marginBottom: fluid(32, 48) }}>In the Media</h2>
         <div data-reveal style={{ width:"100%", maxWidth:900, background:"#fff", border:"1px solid rgba(0,110,28,0.25)", borderRadius:24, padding: fluid(28, 44), boxSizing:"border-box", display:"flex", flexDirection:"column", alignItems:"flex-start", gap:16, textAlign:"left" }}>
-          <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", textTransform:"uppercase", letterSpacing:1 }}>In the Media</div>
-          <h2 style={{ fontWeight:900, fontSize: fluid(22, 30), lineHeight:"1.25", color:"#006E1C", margin:0, width:"100%" }}>International Toad Day featured in AmphiBios</h2>
+          <h3 style={{ fontWeight:800, fontSize: fluid(22, 30), lineHeight:"1.25", color:"#006E1C", margin:0, width:"100%" }}>International Toad Day featured in AmphiBios</h3>
           <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.7", color:"#3F4A3C", margin:0 }}>The story behind International Toad Day has been published in AmphiBios, the magazine of the Amphibian Survival Alliance. Founder Avi Zobel shares how the initiative began in Israel, what was achieved in its first year, the challenges along the way, and lessons for growing the campaign internationally.</p>
           <div style={{ fontWeight:500, fontSize:15, color:"#9CA3AF" }}>Building International Toad Day from Nothing</div>
           <a href="https://amphibios.app/articles/building-international-toad-day" target="_blank" rel="noopener noreferrer"
