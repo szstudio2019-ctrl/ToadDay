@@ -17,7 +17,7 @@ const kidsSlides = [
   // file; on some mobile browsers transparent pixels can paint solid black instead of
   // blending with the page, so zoom crops past that margin entirely rather than relying
   // on the fallback background color alone.
-  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/דף-צביעה-לקרפדות.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 2.1 },
+  { img: "https://i.imgur.com/GNDyrR4.png", alt: "Original Hebrew toad coloring activity page", file: "/toad-day-coloring-page-hebrew.pdf", title: "Original Activity Page", text: "The original printable creative activity prepared for the first International Toad Day.", zoom: 2.1 },
   // coloring-page-en.png has built-in white margin around the artwork, so objectFit:"cover"
   // alone can't fill the frame with it.
   // zoom scales the image up inside its overflow:hidden card to crop that margin away.
@@ -682,7 +682,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div style={{ position: "relative", width: "100%", height: "clamp(360px, 52vh, 660px)", margin: "0 auto" }}>
+                <div style={{ position: "relative", width: "100%", height: "clamp(420px, 62vh, 700px)", margin: "0 auto" }}>
                   {/* VS text */}
                   {/* frogs video */}
                   <video src="/Frog_Toad2.mp4" autoPlay muted loop playsInline
@@ -885,9 +885,6 @@ export default function App() {
                 <div key={i} style={{ position:"absolute", inset:0, opacity: slide===i ? 1 : 0, transition:"opacity 0.4s", pointerEvents: slide===i ? "auto" : "none" }}>
                   <div style={{ width:"100%", height:"100%", borderRadius:16, overflow:"hidden", transform: "rotate(-8deg)", boxShadow:"0 25px 50px -12px rgba(0,0,0,0.25)", position:"relative", background:"#F6FFF5" }}>
                     <div role="img" aria-label={s.alt} style={{ width:"100%", height:"100%", backgroundImage:`url(${s.img})`, backgroundSize:"cover", backgroundPosition:"center", backgroundRepeat:"no-repeat", transform: `scale(${s.zoom || 1})`, transformOrigin:"center" }} />
-                    <a href={s.file} download style={{ position:"absolute", bottom:16, right:16, width:48, height:48, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 10px 15px -3px rgba(0,0,0,0.2)" }}>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </a>
                   </div>
                 </div>
               ))}
@@ -905,9 +902,14 @@ export default function App() {
                 <button key={i} onClick={() => setSlide(i)} aria-label={`Show slide ${i + 1}`} style={{ width:10, height:10, padding:0, borderRadius:9999, border:"none", cursor:"pointer", background: slide===i ? "#006E1C" : "#C7D6C8" }} />
               ))}
             </div>
-            <div style={{ textAlign:"center" }}>
+            <div style={{ textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center", gap:10 }}>
               <div style={{ fontWeight:700, fontSize: 17, color:"#006E1C" }}>{kidsSlides[slide].title}</div>
-              <div style={{ fontWeight:400, fontSize: 17, color:"#3F4A3C", marginTop:4, whiteSpace:"pre-line" }}>{kidsSlides[slide].text}</div>
+              <div style={{ fontWeight:400, fontSize: 17, color:"#3F4A3C", whiteSpace:"pre-line" }}>{kidsSlides[slide].text}</div>
+              <a href={kidsSlides[slide].file} download
+                style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#006E1C", color:"#fff", borderRadius:9999, padding:"10px 20px", fontWeight:700, fontSize:15, textDecoration:"none" }}>
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Download PDF
+              </a>
             </div>
           </div>
         </div>
