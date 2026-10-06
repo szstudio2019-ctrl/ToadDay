@@ -62,6 +62,24 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
   );
 }
 
+// Add a partner by appending to this list: logo goes in /public/partners/.
+// With more than 5 entries the row becomes an auto-scrolling slider.
+const partners = [
+  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anura-africa.png" },
+];
+
+function PartnerLogo({ p }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
+      style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", flexShrink:0, textDecoration:"none", fontWeight:800, fontSize:22 }}>
+      {failed
+        ? <span>{p.name}</span>
+        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ height:56, width:"auto", maxWidth:220, objectFit:"contain", display:"block" }} />}
+    </a>
+  );
+}
+
 export default function App() {
   const [voted, setVoted] = useState(() => {
     try { return localStorage.getItem("toadDayVoted") === "true"; } catch { return false; }
@@ -756,11 +774,31 @@ export default function App() {
       {/* ── JOIN THE CELEBRATION ── */}
       <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -188, boxSizing:"border-box" }}>
         <div data-reveal style={{ width:"100%", maxWidth:900, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:24, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.4)", padding: fluid(32, 48), display:"flex", flexDirection:"column", alignItems:"center", gap:16, textAlign:"center", boxSizing:"border-box" }}>
-          <span style={{ fontWeight:700, fontSize:14, letterSpacing:2, textTransform:"uppercase", color:"#94F990" }}>International Toad Day 2027</span>
-          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>Join the Celebration Around the World</h2>
-          <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.6", color:"rgba(255,255,255,0.9)", margin:0, maxWidth:700 }}>Organizations, museums, zoos, schools, educators and nature communities around the world are invited to take part in <strong style={{ fontWeight:700, color:"#fff" }}>International Toad Day on May 15, 2027</strong>.</p>
-          <p style={{ fontWeight:700, fontSize:17, color:"#fff", margin:0 }}>Registration will open soon</p>
+          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>2027 Participating & Supporting Organizations</h2>
+          <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.6", color:"rgba(255,255,255,0.9)", margin:0, maxWidth:700 }}>Organizations around the world supporting and participating in International Toad Day – 15 May 2027.</p>
         </div>
+      </div>
+
+      {/* ── PARTNER LOGOS ── */}
+      <div id="partners" style={{ background:"#fff", display:"flex", justifyContent:"center", padding: `${fluid(40, 64)} ${fluid(24, 96)} 0`, boxSizing:"border-box" }}>
+        <style>{`
+          #partners .partner-logo { filter: grayscale(1); opacity: 0.55; transition: filter 0.3s ease, opacity 0.3s ease; color: #6B7280; }
+          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { filter: none; opacity: 1; color: #006E1C; }
+          @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          #partners .partners-track { animation: partners-scroll 30s linear infinite; }
+          #partners .partners-viewport:hover .partners-track { animation-play-state: paused; }
+        `}</style>
+        {partners.length > 5 ? (
+          <div className="partners-viewport" style={{ width:"100%", maxWidth:1100, overflow:"hidden", maskImage:"linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage:"linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)" }}>
+            <div className="partners-track" style={{ display:"flex", alignItems:"center", gap:56, width:"max-content" }}>
+              {[...partners, ...partners].map((p, i) => <PartnerLogo key={i} p={p} />)}
+            </div>
+          </div>
+        ) : (
+          <div style={{ width:"100%", maxWidth:1100, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(24, 40)} ${fluid(40, 64)}` }}>
+            {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
+          </div>
+        )}
       </div>
 
       {/* ── RECOGNITION & PARTICIPATION ── */}
