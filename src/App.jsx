@@ -97,7 +97,7 @@ function PartnerLogo({ p, animate = true }) {
   }, []);
 
   return (
-    <div ref={wrapRef} style={{ width:"min(100%, 760px)", flexShrink:0 }}>
+    <div ref={wrapRef} style={{ width:"min(100%, 900px)", flexShrink:0 }}>
       <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
         style={{ display:"block", position:"relative", width:"100%", aspectRatio:"1578 / 797", borderRadius:24, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 25px 45px -15px rgba(0,0,0,0.3)", textDecoration:"none", background:"#fff" }}>
         {failed
