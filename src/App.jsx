@@ -830,7 +830,7 @@ export default function App() {
       </div>
 
       {/* ── RECOGNITION & PARTICIPATION ── */}
-      <div id="recognition" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(64, 100)} ${fluid(24, 96)} ${fluid(120, 200)}`, boxSizing:"border-box" }}>
+      <div id="recognition" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(120, 200)} ${fluid(24, 96)} ${fluid(120, 200)}`, boxSizing:"border-box" }}>
         <style>{`
           #recognition .recog-card { background:#fff; }
           #recognition .recog-desc { margin-top: 12px; }
