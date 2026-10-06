@@ -68,15 +68,43 @@ const partners = [
   { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp" },
 ];
 
-function PartnerLogo({ p }) {
+const PARTNER_TILT = -3;
+
+function PartnerLogo({ p, animate = true }) {
   const [failed, setFailed] = useState(false);
+  const wrapRef = useRef(null);
+
+  // Enter/exit animation tied to scroll: tilts in from below, and eases back out
+  // when it leaves the viewport in either direction.
+  useLayoutEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !animate) return;
+    const shown = { opacity: 1, y: 0, scale: 1, rotation: PARTNER_TILT, duration: 0.8, ease: "power3.out", overwrite: true };
+    const hiddenIn = { opacity: 0, y: 70, scale: 0.92, rotation: PARTNER_TILT - 6 };
+    const play = () => gsap.to(el, shown);
+    const exit = () => gsap.to(el, { opacity: 0, y: -50, scale: 0.94, rotation: PARTNER_TILT + 4, duration: 0.5, ease: "power2.in", overwrite: true });
+    gsap.set(el, hiddenIn);
+    const trigger = ScrollTrigger.create({
+      trigger: el,
+      start: "top 88%",
+      end: "bottom 12%",
+      onEnter: play,
+      onEnterBack: play,
+      onLeave: exit,
+      onLeaveBack: () => gsap.to(el, { ...hiddenIn, duration: 0.5, ease: "power2.in", overwrite: true }),
+    });
+    return () => { trigger.kill(); gsap.killTweensOf(el); };
+  }, []);
+
   return (
-    <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-      style={{ display:"block", flexShrink:0, width:"min(100%, 520px)", borderRadius:20, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 15px 30px -12px rgba(0,0,0,0.2)", textDecoration:"none", background:"#fff" }}>
-      {failed
-        ? <span style={{ display:"block", padding:"40px 24px", fontWeight:800, fontSize:22, textAlign:"center" }}>{p.name}</span>
-        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ width:"100%", height:"auto", aspectRatio:"1592 / 853", objectFit:"cover", display:"block" }} />}
-    </a>
+    <div ref={wrapRef} style={{ width:"min(100%, 760px)", flexShrink:0 }}>
+      <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
+        style={{ display:"block", position:"relative", width:"100%", aspectRatio:"1578 / 797", borderRadius:24, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 25px 45px -15px rgba(0,0,0,0.3)", textDecoration:"none", background:"#fff" }}>
+        {failed
+          ? <span style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100%", fontWeight:800, fontSize:22 }}>{p.name}</span>
+          : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ display:"block", width:"100.887%", maxWidth:"none", marginTop:"-3.58%" }} />}
+      </a>
+    </div>
   );
 }
 
@@ -414,7 +442,7 @@ export default function App() {
     { id: "why-day", label: "Why a Toad Day?" },
     { id: "surprising-fact", label: "Surprising Fact" },
     { id: "toad-or-frog", label: "Toad or Frog?" },
-    { id: "vote-section", label: "Vote" },
+    { id: "join-celebration", label: "2027 Participating & Supporting Organizations" },
     { id: "recognition", label: "Recognition & Participation" },
     { id: "facts", label: "Facts" },
     { id: "kids", label: "Kids' Activities" },
@@ -772,10 +800,10 @@ export default function App() {
       </div>
 
       {/* ── JOIN THE CELEBRATION ── */}
-      <div style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -188, boxSizing:"border-box" }}>
+      <div id="join-celebration" style={{ position:"relative", zIndex:2, display:"flex", justifyContent:"center", padding: `0 ${fluid(24, 96)}`, marginTop: -188, boxSizing:"border-box" }}>
         <div data-reveal style={{ width:"100%", maxWidth:900, background:"rgba(0,90,24,0.55)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:24, boxShadow:"0 25px 50px -12px rgba(0,0,0,0.4)", padding: fluid(32, 48), display:"flex", flexDirection:"column", alignItems:"center", gap:16, textAlign:"center", boxSizing:"border-box" }}>
           <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#fff", margin:0 }}>2027 Participating & Supporting Organizations</h2>
-          <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.6", color:"rgba(255,255,255,0.9)", margin:0, maxWidth:700 }}>Organizations around the world supporting and participating in International Toad Day – 15 May 2027.</p>
+          <p style={{ fontWeight:400, fontSize:17, lineHeight:"1.6", color:"rgba(255,255,255,0.9)", margin:0, maxWidth:"100%" }}>Organizations around the world supporting and participating in International Toad Day – 15&nbsp;May&nbsp;2027.</p>
         </div>
       </div>
 
@@ -791,7 +819,7 @@ export default function App() {
         {partners.length > 5 ? (
           <div className="partners-viewport" style={{ width:"100%", maxWidth:1100, overflow:"hidden", maskImage:"linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage:"linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)" }}>
             <div className="partners-track" style={{ display:"flex", alignItems:"center", gap:56, width:"max-content" }}>
-              {[...partners, ...partners].map((p, i) => <PartnerLogo key={i} p={p} />)}
+              {[...partners, ...partners].map((p, i) => <PartnerLogo key={i} p={p} animate={false} />)}
             </div>
           </div>
         ) : (
