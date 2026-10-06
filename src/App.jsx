@@ -10,7 +10,7 @@ const ff = "'Heebo', sans-serif";
 const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 const FACT_SEQ_FRAME_COUNT = 120;
-const BASE_VOTE_COUNT = 44351;
+const BASE_VOTE_COUNT = 45351;
 const VOTE_API_URL = "https://script.google.com/macros/s/AKfycbziXncGktzRZ4ZJGNx9Lfy1bSbNpnxCPmg-BKMVwPB9wPHjUiPBxDVdhCnlI0duL7Py/exec";
 const VOTE_SALT = "toad-day-2027:";
 

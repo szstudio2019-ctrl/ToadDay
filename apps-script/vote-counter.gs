@@ -4,7 +4,7 @@
 // Access: "Anyone". Execute as: Me.
 //
 // Sheet layout:
-//   COUNT_SHEET!A1  = the running total (set it to 44351 before the first vote)
+//   COUNT_SHEET!A1  = the running total (set it to 45351 before the first vote)
 //   VOTERS_SHEET    = created automatically; column A holds salted SHA-256 hashes of
 //                     voter IPs (never raw IPs), column B the vote time.
 
