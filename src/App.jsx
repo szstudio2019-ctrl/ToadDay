@@ -782,8 +782,8 @@ export default function App() {
       {/* ── PARTNER LOGOS ── */}
       <div id="partners" style={{ background:"#fff", display:"flex", justifyContent:"center", padding: `${fluid(40, 64)} ${fluid(24, 96)} 0`, boxSizing:"border-box" }}>
         <style>{`
-          #partners .partner-logo { filter: grayscale(1); opacity: 0.55; transition: filter 0.3s ease, opacity 0.3s ease; color: #6B7280; }
-          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { filter: none; opacity: 1; color: #006E1C; }
+          #partners .partner-logo { transition: transform 0.3s ease, box-shadow 0.3s ease; color: #006E1C; }
+          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px); }
           @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           #partners .partners-track { animation: partners-scroll 30s linear infinite; }
           #partners .partners-viewport:hover .partners-track { animation-play-state: paused; }
