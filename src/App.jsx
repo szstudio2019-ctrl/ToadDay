@@ -72,10 +72,9 @@ function PartnerLogo({ p }) {
   const [failed, setFailed] = useState(false);
   return (
     <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-      style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", flexShrink:0, textDecoration:"none", fontWeight:800, fontSize:22 }}>
-      {failed
-        ? <span>{p.name}</span>
-        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ height:72, width:"auto", maxWidth:220, objectFit:"contain", display:"block" }} />}
+      style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:10, flexShrink:0, textDecoration:"none" }}>
+      {!failed && <img src={p.logo} alt="" onError={() => setFailed(true)} style={{ height:96, width:"auto", maxWidth:240, objectFit:"contain", display:"block" }} />}
+      <span style={{ fontWeight:700, fontSize:16, textAlign:"center" }}>{p.name}</span>
     </a>
   );
 }
