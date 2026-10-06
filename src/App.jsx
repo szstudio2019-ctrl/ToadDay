@@ -65,16 +65,17 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 // Add a partner by appending to this list: logo goes in /public/partners/.
 // With more than 5 entries the row becomes an auto-scrolling slider.
 const partners = [
-  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica.png" },
+  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp" },
 ];
 
 function PartnerLogo({ p }) {
   const [failed, setFailed] = useState(false);
   return (
     <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-      style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:10, flexShrink:0, textDecoration:"none" }}>
-      {!failed && <img src={p.logo} alt="" onError={() => setFailed(true)} style={{ height:96, width:"auto", maxWidth:240, objectFit:"contain", display:"block" }} />}
-      <span style={{ fontWeight:700, fontSize:16, textAlign:"center" }}>{p.name}</span>
+      style={{ display:"block", flexShrink:0, width:"min(100%, 520px)", borderRadius:20, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 15px 30px -12px rgba(0,0,0,0.2)", textDecoration:"none", background:"#fff" }}>
+      {failed
+        ? <span style={{ display:"block", padding:"40px 24px", fontWeight:800, fontSize:22, textAlign:"center" }}>{p.name}</span>
+        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ width:"100%", height:"auto", aspectRatio:"1592 / 853", objectFit:"cover", display:"block" }} />}
     </a>
   );
 }
