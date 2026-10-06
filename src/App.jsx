@@ -65,7 +65,7 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 // Add a partner by appending to this list: logo goes in /public/partners/.
 // With more than 5 entries the row becomes an auto-scrolling slider.
 const partners = [
-  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anura-africa.png" },
+  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica.png" },
 ];
 
 function PartnerLogo({ p }) {
@@ -75,7 +75,7 @@ function PartnerLogo({ p }) {
       style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", flexShrink:0, textDecoration:"none", fontWeight:800, fontSize:22 }}>
       {failed
         ? <span>{p.name}</span>
-        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ height:56, width:"auto", maxWidth:220, objectFit:"contain", display:"block" }} />}
+        : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ height:72, width:"auto", maxWidth:220, objectFit:"contain", display:"block" }} />}
     </a>
   );
 }
