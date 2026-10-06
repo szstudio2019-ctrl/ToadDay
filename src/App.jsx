@@ -10,7 +10,9 @@ const ff = "'Heebo', sans-serif";
 const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 const FACT_SEQ_FRAME_COUNT = 120;
-const BASE_VOTE_COUNT = 43851;
+const BASE_VOTE_COUNT = 44351;
+const VOTE_API_URL = "https://script.google.com/macros/s/AKfycbziXncGktzRZ4ZJGNx9Lfy1bSbNpnxCPmg-BKMVwPB9wPHjUiPBxDVdhCnlI0duL7Py/exec";
+const VOTE_SALT = "toad-day-2027:";
 
 const kidsSlides = [
   // GNDyrR4.png has a transparent margin baked into the top ~25% and bottom ~15% of the
@@ -112,10 +114,10 @@ export default function App() {
   const [voted, setVoted] = useState(() => {
     try { return localStorage.getItem("toadDayVoted") === "true"; } catch { return false; }
   });
-  const [count, setCount] = useState(() => {
-    try { const stored = Number(localStorage.getItem("toadDayCount")); return stored > BASE_VOTE_COUNT ? stored : BASE_VOTE_COUNT; } catch { return BASE_VOTE_COUNT; }
-  });
+  const [count, setCount] = useState(BASE_VOTE_COUNT);
   const [displayCount, setDisplayCount] = useState(0);
+  const countRef = useRef(BASE_VOTE_COUNT);
+  const countEnteredRef = useRef(false);
   const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const [slide, setSlide] = useState(0);
   const [vsIndex, setVsIndex] = useState(0);
@@ -316,8 +318,9 @@ export default function App() {
       start: "top 90%",
       once: true,
       onEnter: () => {
+        countEnteredRef.current = true;
         gsap.to(countObjRef.current, {
-          val: count,
+          val: countRef.current,
           duration: 1.6,
           ease: "power2.out",
           onUpdate: () => setDisplayCount(Math.round(countObjRef.current.val)),
@@ -325,8 +328,30 @@ export default function App() {
       },
     });
     return () => trigger.kill();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // The shared total lives in a Google Sheet (via an Apps Script web app); load it
+  // on mount and, if it arrives after the entrance count-up, tween to the new total.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(VOTE_API_URL)
+      .then((r) => r.json())
+      .then((d) => { if (!cancelled && Number.isFinite(Number(d.count))) setCount(Number(d.count)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    countRef.current = count;
+    if (!countEnteredRef.current) return;
+    gsap.to(countObjRef.current, {
+      val: count,
+      duration: 0.8,
+      ease: "power2.out",
+      overwrite: true,
+      onUpdate: () => setDisplayCount(Math.round(countObjRef.current.val)),
+    });
+  }, [count]);
 
   // Toad-or-Frog comparison: as the pinned strip scrolls past, step through the
   // five trait pairs (Skin/Habitat/Movement/Legs/Defense) one at a time.
@@ -422,14 +447,18 @@ export default function App() {
     if (voted) return;
     setVoted(true);
     try { localStorage.setItem("toadDayVoted", "true"); } catch {}
-    gsap.killTweensOf(countObjRef.current);
-    setCount((c) => {
-      const next = c + 1;
-      countObjRef.current.val = next;
-      setDisplayCount(next);
-      try { localStorage.setItem("toadDayCount", String(next)); } catch {}
-      return next;
-    });
+    setCount((c) => c + 1);
+    // One vote per IP: send a salted SHA-256 of the visitor's IP; the sheet script
+    // ignores a hash it has already seen and replies with the real total.
+    (async () => {
+      try {
+        const { ip } = await (await fetch("https://api.ipify.org?format=json")).json();
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(VOTE_SALT + ip));
+        const h = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+        const res = await (await fetch(VOTE_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ h }) })).json();
+        if (Number.isFinite(Number(res.count))) setCount(Number(res.count));
+      } catch {}
+    })();
   };
 
   const cardHover = {
