@@ -66,16 +66,15 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 
 // Add a partner by appending to this list: logo goes in /public/partners/.
 // With more than 5 entries the row becomes an auto-scrolling slider.
-// width/top are CSS % that crop stray browser chrome from each site screenshot.
 const partners = [
-  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp", fit: { width: 100.887, top: -3.58 } },
-  { name: "San Francisco Zoo & Gardens", href: "https://www.sfzoo.org/", logo: "/partners/sfzoo-site.jpeg", fit: { width: 101.8, top: 0 } },
-  { name: "Amphibian Foundation", href: "https://amphibianfoundation.org/", logo: "/partners/amphibianfoundation-site.jpeg", fit: { width: 100, top: 0 } },
+  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica.png" },
+  { name: "San Francisco Zoo & Gardens", href: "https://www.sfzoo.org/", logo: "/partners/sfzoo-logo.jpeg" },
+  { name: "Amphibian Foundation", href: "https://amphibianfoundation.org/", logo: "/partners/amphibianfoundation-logo.jpeg" },
 ];
 
-const PARTNER_TILT = -3;
+const PARTNER_TILT = 0;
 
-function PartnerLogo({ p, animate = true, wide = false }) {
+function PartnerLogo({ p, animate = true }) {
   const [failed, setFailed] = useState(false);
   const wrapRef = useRef(null);
 
@@ -102,12 +101,11 @@ function PartnerLogo({ p, animate = true, wide = false }) {
   }, []);
 
   return (
-    <div ref={wrapRef} style={{ width: wide ? "min(100%, 900px)" : "min(100%, 330px)", flexShrink:0 }}>
+    <div ref={wrapRef} style={{ width:"min(100%, 280px)", flexShrink:0 }}>
       <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-        style={{ display:"block", position:"relative", width:"100%", aspectRatio:"2 / 1", borderRadius: wide ? 24 : 18, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 25px 45px -15px rgba(0,0,0,0.3)", textDecoration:"none", background:"#fff" }}>
-        {failed
-          ? <span style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100%", fontWeight:800, fontSize:22 }}>{p.name}</span>
-          : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ display:"block", width:`${p.fit.width}%`, maxWidth:"none", marginTop:`${p.fit.top}%` }} />}
+        style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:18, padding:"28px 20px", borderRadius:20, background:"#F8F8F8", border:"1px solid rgba(0,110,28,0.2)", boxShadow:"0 15px 30px -15px rgba(0,0,0,0.2)", textDecoration:"none" }}>
+        {!failed && <img src={p.logo} alt="" onLoad={() => ScrollTrigger.refresh()} onError={() => setFailed(true)} style={{ display:"block", height:120, width:"auto", maxWidth:"100%", objectFit:"contain" }} />}
+        <span style={{ fontWeight:700, fontSize:17, lineHeight:"1.3", textAlign:"center", color:"#1B1C1C" }}>{p.name}</span>
       </a>
     </div>
   );
@@ -844,6 +842,7 @@ export default function App() {
         <style>{`
           #partners .partner-logo { transition: transform 0.3s ease, box-shadow 0.3s ease; color: #006E1C; }
           #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px); }
+          #partners .partner-logo:hover span, #partners .partner-logo:focus-visible span { color: #006E1C !important; }
           @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           #partners .partners-track { animation: partners-scroll 30s linear infinite; }
           #partners .partners-viewport:hover .partners-track { animation-play-state: paused; }
@@ -856,7 +855,7 @@ export default function App() {
           </div>
         ) : (
           <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(28, 40)} ${fluid(24, 40)}` }}>
-            {partners.map((p) => <PartnerLogo key={p.name} p={p} wide={partners.length === 1} />)}
+            {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
           </div>
         )}
       </div>
