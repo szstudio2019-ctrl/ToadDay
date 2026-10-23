@@ -66,13 +66,16 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 
 // Add a partner by appending to this list: logo goes in /public/partners/.
 // With more than 5 entries the row becomes an auto-scrolling slider.
+// width/top are CSS % that crop stray browser chrome from each site screenshot.
 const partners = [
-  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp" },
+  { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp", fit: { width: 100.887, top: -3.58 } },
+  { name: "San Francisco Zoo & Gardens", href: "https://www.sfzoo.org/", logo: "/partners/sfzoo-site.jpeg", fit: { width: 101.8, top: 0 } },
+  { name: "Amphibian Foundation", href: "https://www.amphibianfoundation.org/", logo: "/partners/amphibianfoundation-site.jpeg", fit: { width: 100, top: 0 } },
 ];
 
 const PARTNER_TILT = -3;
 
-function PartnerLogo({ p, animate = true }) {
+function PartnerLogo({ p, animate = true, wide = false }) {
   const [failed, setFailed] = useState(false);
   const wrapRef = useRef(null);
 
@@ -99,12 +102,12 @@ function PartnerLogo({ p, animate = true }) {
   }, []);
 
   return (
-    <div ref={wrapRef} style={{ width:"min(100%, 900px)", flexShrink:0 }}>
+    <div ref={wrapRef} style={{ width: wide ? "min(100%, 900px)" : "min(100%, 330px)", flexShrink:0 }}>
       <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-        style={{ display:"block", position:"relative", width:"100%", aspectRatio:"1578 / 797", borderRadius:24, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 25px 45px -15px rgba(0,0,0,0.3)", textDecoration:"none", background:"#fff" }}>
+        style={{ display:"block", position:"relative", width:"100%", aspectRatio:"2 / 1", borderRadius: wide ? 24 : 18, overflow:"hidden", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 25px 45px -15px rgba(0,0,0,0.3)", textDecoration:"none", background:"#fff" }}>
         {failed
           ? <span style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100%", fontWeight:800, fontSize:22 }}>{p.name}</span>
-          : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ display:"block", width:"100.887%", maxWidth:"none", marginTop:"-3.58%" }} />}
+          : <img src={p.logo} alt={p.name} onError={() => setFailed(true)} style={{ display:"block", width:`${p.fit.width}%`, maxWidth:"none", marginTop:`${p.fit.top}%` }} />}
       </a>
     </div>
   );
@@ -852,8 +855,8 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div style={{ width:"100%", maxWidth:1100, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(24, 40)} ${fluid(40, 64)}` }}>
-            {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
+          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(28, 40)} ${fluid(24, 40)}` }}>
+            {partners.map((p) => <PartnerLogo key={p.name} p={p} wide={partners.length === 1} />)}
           </div>
         )}
       </div>
