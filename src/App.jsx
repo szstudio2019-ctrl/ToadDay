@@ -70,7 +70,7 @@ function MagButton({ as: Tag = "button", style, children, ...rest }) {
 const partners = [
   { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica-site.webp", fit: { width: 100.887, top: -3.58 } },
   { name: "San Francisco Zoo & Gardens", href: "https://www.sfzoo.org/", logo: "/partners/sfzoo-site.jpeg", fit: { width: 101.8, top: 0 } },
-  { name: "Amphibian Foundation", href: "https://www.amphibianfoundation.org/", logo: "/partners/amphibianfoundation-site.jpeg", fit: { width: 100, top: 0 } },
+  { name: "Amphibian Foundation", href: "https://amphibianfoundation.org/", logo: "/partners/amphibianfoundation-site.jpeg", fit: { width: 100, top: 0 } },
 ];
 
 const PARTNER_TILT = -3;
