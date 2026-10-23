@@ -101,11 +101,12 @@ function PartnerLogo({ p, animate = true }) {
   }, []);
 
   return (
-    <div ref={wrapRef} style={{ width:"min(100%, 280px)", flexShrink:0 }}>
+    <div ref={wrapRef} style={{ flexShrink:0 }}>
       <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-        style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:18, padding:"28px 20px", borderRadius:20, background:"#F8F8F8", border:"1px solid rgba(0,110,28,0.2)", boxShadow:"0 15px 30px -15px rgba(0,0,0,0.2)", textDecoration:"none" }}>
-        {!failed && <img src={p.logo} alt="" onLoad={() => ScrollTrigger.refresh()} onError={() => setFailed(true)} style={{ display:"block", height:120, width:"auto", maxWidth:"100%", objectFit:"contain" }} />}
-        <span style={{ fontWeight:700, fontSize:17, lineHeight:"1.3", textAlign:"center", color:"#1B1C1C" }}>{p.name}</span>
+        style={{ display:"flex", alignItems:"center", justifyContent:"center", textDecoration:"none", fontWeight:800, fontSize:20, color:"#1B1C1C" }}>
+        {failed
+          ? <span>{p.name}</span>
+          : <img src={p.logo} alt={p.name} onLoad={() => ScrollTrigger.refresh()} onError={() => setFailed(true)} style={{ display:"block", height:130, width:"auto", maxWidth:"100%", objectFit:"contain" }} />}
       </a>
     </div>
   );
@@ -841,8 +842,7 @@ export default function App() {
       <div id="partners" style={{ background:"#fff", display:"flex", justifyContent:"center", padding: `${fluid(40, 64)} ${fluid(24, 96)} 0`, boxSizing:"border-box" }}>
         <style>{`
           #partners .partner-logo { transition: transform 0.3s ease, box-shadow 0.3s ease; color: #006E1C; }
-          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px); }
-          #partners .partner-logo:hover span, #partners .partner-logo:focus-visible span { color: #006E1C !important; }
+          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px) scale(1.06); }
           @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           #partners .partners-track { animation: partners-scroll 30s linear infinite; }
           #partners .partners-viewport:hover .partners-track { animation-play-state: paused; }
@@ -854,7 +854,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(28, 40)} ${fluid(24, 40)}` }}>
+          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(32, 48)} ${fluid(48, 80)}` }}>
             {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
           </div>
         )}
