@@ -70,6 +70,8 @@ const partners = [
   { name: "Anura Africa", href: "https://www.anuraafrica.org/", logo: "/partners/anuraafrica.png" },
   { name: "San Francisco Zoo & Gardens", href: "https://www.sfzoo.org/", logo: "/partners/sfzoo-logo.jpeg" },
   { name: "Amphibian Foundation", href: "https://amphibianfoundation.org/", logo: "/partners/amphibianfoundation-logo.jpeg" },
+  // Josh's Frogs: leaf icon cropped from a screenshot + the black wordmark SVG.
+  { name: "Josh's Frogs", href: "https://joshsfrogs.com/", icon: "/partners/joshsfrogs-icon.jpg", wordmark: "/partners/joshsfrogs-name.svg" },
 ];
 
 const PARTNER_TILT = 0;
@@ -103,10 +105,24 @@ function PartnerLogo({ p, animate = true }) {
   return (
     <div ref={wrapRef} style={{ flexShrink:0 }}>
       <a className="partner-logo" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={p.name} title={p.name}
-        style={{ display:"flex", alignItems:"center", justifyContent:"center", textDecoration:"none", fontWeight:800, fontSize:20, color:"#1B1C1C" }}>
-        {failed
-          ? <span>{p.name}</span>
-          : <img src={p.logo} alt={p.name} onLoad={() => ScrollTrigger.refresh()} onError={() => setFailed(true)} style={{ display:"block", height:130, width:"auto", maxWidth:"100%", objectFit:"contain" }} />}
+        style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:14, textDecoration:"none", color:"#1B1C1C" }}>
+        <div style={{ height:130, display:"flex", alignItems:"center", justifyContent:"center", gap:10 }}>
+          {p.icon ? (
+            <>
+              <div role="img" aria-label="" style={{ width:98, height:100, backgroundImage:`url(${p.icon})`, backgroundSize:"auto 100%", backgroundPosition:"left center", backgroundRepeat:"no-repeat", filter:"brightness(1.04)" }} />
+              <img src={p.wordmark} alt="" style={{ display:"block", width:200, height:"auto" }} />
+            </>
+          ) : failed ? (
+            <span style={{ fontWeight:800, fontSize:20 }}>{p.name}</span>
+          ) : (
+            // brightness(1.04) pushes the logos' light-gray JPEG backgrounds to pure white
+            <img src={p.logo} alt="" onLoad={() => ScrollTrigger.refresh()} onError={() => setFailed(true)} style={{ display:"block", height:130, width:"auto", maxWidth:"100%", objectFit:"contain", filter:"brightness(1.04)" }} />
+          )}
+        </div>
+        <span style={{ fontWeight:700, fontSize:17, lineHeight:"1.3", textAlign:"center", maxWidth:240 }}>{p.name}</span>
+        <span className="partner-arrow" aria-hidden="true" style={{ width:38, height:38, borderRadius:9999, background:"#006E1C", display:"flex", alignItems:"center", justifyContent:"center", transition:"transform 0.3s ease" }}>
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M11 5l5 5-5 5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </span>
       </a>
     </div>
   );
@@ -240,12 +256,14 @@ export default function App() {
   // enough data (calling play() at mount, before it's buffered, can silently
   // fail and leave it stuck paused).
   useEffect(() => {
-    const el = whyDayVideoRef.current;
-    if (!el) return;
-    const tryPlay = () => el.play().catch(() => {});
-    if (el.readyState >= 3) tryPlay();
-    el.addEventListener("canplay", tryPlay);
-    return () => el.removeEventListener("canplay", tryPlay);
+    const els = [whyDayVideoRef.current, voteVideoRef.current].filter(Boolean);
+    const cleanups = els.map((el) => {
+      const tryPlay = () => el.play().catch(() => {});
+      if (el.readyState >= 3) tryPlay();
+      el.addEventListener("canplay", tryPlay);
+      return () => el.removeEventListener("canplay", tryPlay);
+    });
+    return () => cleanups.forEach((c) => c());
   }, []);
 
   // Nav dropdown: scale/fade the panel in and stagger its links each time it opens.
@@ -803,8 +821,8 @@ export default function App() {
       </div>
 
       {/* ── VOTE ── */}
-      <div id="vote-section" style={{ position:"relative", height: fluid(750, 1080), overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        <video ref={voteVideoRef} src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline
+      <div id="vote-section" style={{ position:"relative", height: fluid(750, 1080), background:"#1a3a1a", overflow:"hidden", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+        <video ref={voteVideoRef} src="/magnific_a-green-spotted-toad-jump_4R3pqGy9Aa.mp4" autoPlay muted loop playsInline preload="auto"
           style={{ position:"absolute", left:0, right:0, top:"-15%", width:"100%", height:"130%", objectFit:"cover", zIndex:0, willChange:"transform" }} />
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.45)", zIndex:1 }} />
         <div data-reveal style={{ position:"relative", zIndex:2, display:"flex", flexDirection:"column", alignItems:"center", gap: fluid(32, 64), padding: "0 24px" }}>
@@ -842,7 +860,8 @@ export default function App() {
       <div id="partners" style={{ background:"#fff", display:"flex", justifyContent:"center", padding: `${fluid(40, 64)} ${fluid(24, 96)} 0`, boxSizing:"border-box" }}>
         <style>{`
           #partners .partner-logo { transition: transform 0.3s ease, box-shadow 0.3s ease; color: #006E1C; }
-          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px) scale(1.06); }
+          #partners .partner-logo:hover, #partners .partner-logo:focus-visible { transform: translateY(-4px); }
+          #partners .partner-logo:hover .partner-arrow, #partners .partner-logo:focus-visible .partner-arrow { transform: translateX(6px); }
           @keyframes partners-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           #partners .partners-track { animation: partners-scroll 30s linear infinite; }
           #partners .partners-viewport:hover .partners-track { animation-play-state: paused; }
@@ -854,7 +873,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(32, 48)} ${fluid(48, 80)}` }}>
+          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(32, 48)} ${fluid(32, 56)}` }}>
             {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
           </div>
         )}
