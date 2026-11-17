@@ -74,6 +74,68 @@ const partners = [
   { name: "Josh's Frogs", href: "https://joshsfrogs.com/", icon: "/partners/joshsfrogs-icon.jpg", wordmark: "/partners/joshsfrogs-name.svg" },
 ];
 
+// Transparent video that also works on iOS Safari (which ignores WebM alpha and
+// would show the fallback MP4's opaque white/black backdrop). The source is a
+// "stacked alpha" MP4: colour on the top half, the matte on the bottom half; each
+// frame is recombined onto a canvas.
+function AlphaVideo({ src, style }) {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    const c = canvasRef.current;
+    if (!v || !c) return;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    const buf = document.createElement("canvas");
+    const bctx = buf.getContext("2d", { willReadFrequently: true });
+    let visible = true;
+    let stopped = false;
+    let handle = 0;
+
+    const draw = () => {
+      const W = v.videoWidth;
+      const H = Math.floor(v.videoHeight / 2);
+      if (!W || !H || v.readyState < 2) return;
+      if (c.width !== W || c.height !== H) { c.width = W; c.height = H; buf.width = W; buf.height = H * 2; }
+      bctx.drawImage(v, 0, 0);
+      const frame = bctx.getImageData(0, 0, W, H * 2);
+      const d = frame.data;
+      const off = W * H * 4;
+      for (let i = 0; i < off; i += 4) d[i + 3] = d[off + i];
+      ctx.putImageData(frame, 0, 0, 0, 0, W, H);
+    };
+    const tick = () => {
+      if (stopped) return;
+      if (visible && !document.hidden) draw();
+      handle = v.requestVideoFrameCallback ? v.requestVideoFrameCallback(tick) : requestAnimationFrame(tick);
+    };
+    const start = () => v.play().catch(() => {});
+    v.addEventListener("canplay", start);
+    v.addEventListener("loadeddata", draw);
+    start();
+    tick();
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { rootMargin: "200px" });
+    io.observe(c);
+    return () => {
+      stopped = true;
+      io.disconnect();
+      v.removeEventListener("canplay", start);
+      v.removeEventListener("loadeddata", draw);
+      if (v.cancelVideoFrameCallback && v.requestVideoFrameCallback) v.cancelVideoFrameCallback(handle);
+      else cancelAnimationFrame(handle);
+    };
+  }, []);
+
+  return (
+    <>
+      <video ref={videoRef} src={src} muted loop playsInline preload="auto" aria-hidden="true"
+        style={{ position:"absolute", width:1, height:1, opacity:0, pointerEvents:"none" }} />
+      <canvas ref={canvasRef} aria-hidden="true" style={style} />
+    </>
+  );
+}
+
 const PARTNER_TILT = 0;
 
 function PartnerLogo({ p, animate = true }) {
@@ -991,11 +1053,8 @@ export default function App() {
             <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"left", margin:0, width:"100%" }}>Kids' Creative Activities</h2>
             <p style={{ fontWeight:400, fontSize: 19, lineHeight:"1.6", color:"#3F4A3C", textAlign:"left", margin:0 }}>Download, print and use these activities to introduce children to toads and their habitats.</p>
             {isDesktop && (
-              <video autoPlay muted loop playsInline preload="auto"
-                style={{ position:"absolute", left: 0, top: "100%", marginTop: -40, height: fluid(400, 520), width: "auto", zIndex: 5, transform: "scaleX(-1)", pointerEvents:"none" }}>
-                <source src="/toad_jump_alpha.webm" type="video/webm" />
-                <source src="/toad_jump_compressed.mp4" type="video/mp4" />
-              </video>
+              <AlphaVideo src="/toad_jump_stacked.mp4"
+                style={{ position:"absolute", left: 0, top: "100%", marginTop: -40, height: fluid(400, 520), width: "auto", zIndex: 5, transform: "scaleX(-1)", pointerEvents:"none" }} />
             )}
           </div>
           <div data-reveal style={{ width: layout(502, "100%"), flexShrink:0, display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
@@ -1035,10 +1094,7 @@ export default function App() {
 
         {!isDesktop && (
           <div data-reveal style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 24, marginBottom: -355 }}>
-            <video autoPlay muted loop playsInline preload="auto" style={{ height: 320, width: "auto", transform: "scaleX(-1)" }}>
-              <source src="/toad_jump_alpha.webm" type="video/webm" />
-              <source src="/toad_jump_compressed.mp4" type="video/mp4" />
-            </video>
+            <AlphaVideo src="/toad_jump_stacked.mp4" style={{ height: 320, width: "auto", transform: "scaleX(-1)" }} />
           </div>
         )}
       </div>
