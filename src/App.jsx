@@ -684,6 +684,14 @@ export default function App() {
         )}
       </div>
 
+      {/* ── FIXED INSTAGRAM BUTTON ── */}
+      <a href="https://www.instagram.com/internationaltoadday/" target="_blank" rel="noopener noreferrer" aria-label="Follow International Toad Day on Instagram" title="Follow us on Instagram"
+        style={{ position:"fixed", right: 20, bottom: 20, zIndex: 900, width: 56, height: 56, borderRadius: 9999, background:"#006E1C", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 12px 28px -8px rgba(0,60,15,0.55)", border:"1px solid rgba(255,255,255,0.25)", textDecoration:"none" }}
+        onMouseEnter={(e) => gsap.to(e.currentTarget, { y: -4, scale: 1.08, duration: 0.25, ease: "power2.out" })}
+        onMouseLeave={(e) => gsap.to(e.currentTarget, { y: 0, scale: 1, duration: 0.25, ease: "power2.out" })}>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+      </a>
+
       {/* ── HERO ── */}
       <div style={{ position: "relative", minHeight: fluid(680, 1080), display: "flex", alignItems: "center", overflow: "hidden" }}>
         <video autoPlay muted loop playsInline preload="auto" src="/toad_hiro.mp4"
