@@ -136,6 +136,54 @@ function AlphaVideo({ src, style }) {
   );
 }
 
+// Add a social video by appending here; files live in /public/social/.
+const socialVideos = [
+  { title: "Meet the Toad — Story", note: "9:16 · 32 seconds · with music", src: "/social/toad-story.mp4", poster: "/social/toad-story-poster.jpg" },
+];
+
+function SocialVideoCard({ v }) {
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => { if (videoRef.current) videoRef.current.muted = muted; }, [muted]);
+
+  // Play only while on screen.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) el.play().catch(() => {});
+      else el.pause();
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div style={{ width:"min(100%, 300px)", display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
+      <div style={{ position:"relative", width:"100%", aspectRatio:"9 / 16", borderRadius:28, overflow:"hidden", background:"#0b2a0b", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 30px 50px -20px rgba(0,60,15,0.45)" }}>
+        <video ref={videoRef} src={v.src} poster={v.poster} muted loop playsInline preload="metadata" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+        <button onClick={() => setMuted((m) => !m)} aria-label={muted ? "Turn sound on" : "Turn sound off"}
+          style={{ position:"absolute", right:14, bottom:14, width:44, height:44, borderRadius:9999, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(0,90,24,0.55)", backdropFilter:"blur(10px)", WebkitBackdropFilter:"blur(10px)", color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          {muted ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>
+          )}
+        </button>
+      </div>
+      <div style={{ textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center", gap:10 }}>
+        <div style={{ fontWeight:700, fontSize:18, color:"#006E1C" }}>{v.title}</div>
+        <div style={{ fontWeight:400, fontSize:15, color:"#3F4A3C" }}>{v.note}</div>
+        <a href={v.src} download style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#006E1C", color:"#fff", borderRadius:9999, padding:"10px 22px", fontWeight:700, fontSize:15, textDecoration:"none" }}>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          Download video
+        </a>
+      </div>
+    </div>
+  );
+}
+
 const PARTNER_TILT = 0;
 
 function PartnerLogo({ p, animate = true }) {
@@ -556,6 +604,7 @@ export default function App() {
     { id: "join-celebration", label: "2027 Participating & Supporting Organizations" },
     { id: "recognition", label: "Recognition & Participation" },
     { id: "facts", label: "Facts" },
+    { id: "social-videos", label: "Videos for Social" },
     { id: "kids", label: "Kids' Activities" },
   ];
 
@@ -1042,6 +1091,18 @@ export default function App() {
               Read the article on AmphiBios →
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* ── VIDEOS FOR SOCIAL ── */}
+      <div id="social-videos" style={{ background:"#fff", display:"flex", flexDirection:"column", alignItems:"center", padding: `${fluid(80, 120)} ${fluid(24, 96)}`, boxSizing:"border-box" }}>
+        <div data-reveal style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, width:"100%", maxWidth:900, textAlign:"center", marginBottom: fluid(32, 48) }}>
+          <div style={{ background:"#C4FEC2", borderRadius:9999, padding:"4px 16px", fontWeight:700, fontSize:14, color:"#006E1C", textTransform:"uppercase", letterSpacing:1 }}>Share the Toad</div>
+          <h2 style={{ fontWeight:900, fontSize: fluid(26, 38), lineHeight:"1.1", color:"#006E1C", textAlign:"center", margin:0 }}>Videos for Social Media</h2>
+          <p style={{ fontWeight:400, fontSize:19, lineHeight:"1.6", color:"#3F4A3C", margin:0, maxWidth:640 }}>Ready-to-post story videos. Download and share them to help spread the word about International Toad Day.</p>
+        </div>
+        <div data-reveal style={{ width:"100%", maxWidth:1100, display:"flex", flexWrap:"wrap", justifyContent:"center", gap: fluid(32, 48) }}>
+          {socialVideos.map((v) => <SocialVideoCard key={v.src} v={v} />)}
         </div>
       </div>
 
