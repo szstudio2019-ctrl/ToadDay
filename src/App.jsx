@@ -72,6 +72,7 @@ const partners = [
   { name: "Amphibian Foundation", href: "https://amphibianfoundation.org/", logo: "/partners/amphibianfoundation-logo.jpeg" },
   // Josh's Frogs: leaf icon cropped from a screenshot + the black wordmark SVG.
   { name: "Josh's Frogs", href: "https://joshsfrogs.com/", icon: "/partners/joshsfrogs-icon.jpg", wordmark: "/partners/joshsfrogs-name.svg" },
+  { name: "Midbarium", href: "https://midbarium.co.il/", logo: "/partners/midbarium-logo.png" },
 ];
 
 // Transparent video that also works on iOS Safari (which ignores WebM alpha and
@@ -984,7 +985,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div style={{ width:"100%", maxWidth:1200, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(32, 48)} ${fluid(32, 56)}` }}>
+          <div style={{ width:"100%", maxWidth:920, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:`${fluid(32, 48)} ${fluid(32, 56)}` }}>
             {partners.map((p) => <PartnerLogo key={p.name} p={p} />)}
           </div>
         )}
