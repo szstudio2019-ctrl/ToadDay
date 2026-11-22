@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { supabase } from "./content/supabase";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,7 +12,6 @@ const FACTS_RING_RADIUS = 130;
 const FACTS_RING_CIRCUMFERENCE = 2 * Math.PI * FACTS_RING_RADIUS;
 const FACT_SEQ_FRAME_COUNT = 120;
 const BASE_VOTE_COUNT = 45351;
-const VOTE_API_URL = "https://script.google.com/macros/s/AKfycbziXncGktzRZ4ZJGNx9Lfy1bSbNpnxCPmg-BKMVwPB9wPHjUiPBxDVdhCnlI0duL7Py/exec";
 const VOTE_SALT = "toad-day-2027:";
 
 // Fluid value that scales continuously with viewport width between minVw and maxVw,
@@ -468,13 +468,12 @@ export default function App({ content: C }) {
     return () => trigger.kill();
   }, []);
 
-  // The shared total lives in a Google Sheet (via an Apps Script web app); load it
+  // The shared total lives in Supabase (vote_count = starting total + votes cast); load it
   // on mount and, if it arrives after the entrance count-up, tween to the new total.
   useEffect(() => {
     let cancelled = false;
-    fetch(VOTE_API_URL)
-      .then((r) => r.json())
-      .then((d) => { if (!cancelled && Number.isFinite(Number(d.count))) setCount(Number(d.count)); })
+    supabase.rpc("vote_count")
+      .then(({ data }) => { if (!cancelled && Number.isFinite(Number(data))) setCount(Number(data)); })
       .catch(() => {});
     return () => { cancelled = true; };
   }, []);
@@ -586,15 +585,15 @@ export default function App({ content: C }) {
     setVoted(true);
     try { localStorage.setItem("toadDayVoted", "true"); } catch {}
     setCount((c) => c + 1);
-    // One vote per IP: send a salted SHA-256 of the visitor's IP; the sheet script
+    // One vote per IP: send a salted SHA-256 of the visitor's IP; cast_vote in Supabase
     // ignores a hash it has already seen and replies with the real total.
     (async () => {
       try {
         const { ip } = await (await fetch("https://api.ipify.org?format=json")).json();
         const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(VOTE_SALT + ip));
         const h = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
-        const res = await (await fetch(VOTE_API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ h }) })).json();
-        if (Number.isFinite(Number(res.count))) setCount(Number(res.count));
+        const { data: res } = await supabase.rpc("cast_vote", { h });
+        if (Number.isFinite(Number(res?.count))) setCount(Number(res.count));
       } catch {}
     })();
   };
