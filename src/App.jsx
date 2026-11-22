@@ -159,6 +159,48 @@ function SocialVideoCard({ v, instagramUrl }) {
   );
 }
 
+// Latest Instagram posts, from a Behold.so JSON feed (Behold keeps it in sync with the
+// account, so new posts appear on the site by themselves). Renders nothing until a
+// feed URL is set in the admin panel or if the feed cannot be loaded.
+function InstagramFeed({ feedUrl, profileUrl, title, max = 6 }) {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    if (!feedUrl) return;
+    let cancelled = false;
+    fetch(feedUrl)
+      .then((r) => r.json())
+      .then((d) => { if (!cancelled) setPosts((Array.isArray(d) ? d : d.posts || []).slice(0, max)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [feedUrl, max]);
+  if (!posts.length) return null;
+  const imgOf = (p) => p.sizes?.medium?.mediaUrl || p.thumbnailUrl || p.mediaUrl;
+  return (
+    <div style={{ width:"100%", maxWidth:1100, display:"flex", flexDirection:"column", alignItems:"center", gap: fluid(20, 28), marginTop: fluid(48, 72) }}>
+      {title && <h3 style={{ fontWeight:900, fontSize: fluid(22, 30), color:"#006E1C", margin:0, textAlign:"center" }}>{title}</h3>}
+      <div style={{ width:"100%", display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(min(160px, 45%), 1fr))", gap: fluid(10, 16) }}>
+        {posts.map((p) => (
+          <a key={p.id || p.permalink} href={p.permalink} target="_blank" rel="noopener noreferrer" aria-label={(p.prunedCaption || p.caption || "Instagram post").slice(0, 80)}
+            style={{ position:"relative", display:"block", aspectRatio:"1 / 1", borderRadius:18, overflow:"hidden", background:"#E3F5E1" }}
+            onMouseEnter={(e) => gsap.to(e.currentTarget.lastChild, { opacity: 1, duration: 0.25 })}
+            onMouseLeave={(e) => gsap.to(e.currentTarget.lastChild, { opacity: 0, duration: 0.25 })}>
+            <img src={imgOf(p)} alt="" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+            <span style={{ position:"absolute", inset:0, background:"rgba(0,70,18,0.55)", display:"flex", alignItems:"center", justifyContent:"center", opacity:0, color:"#fff" }}>
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+      {profileUrl && (
+        <a href={profileUrl} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#006E1C", color:"#fff", borderRadius:9999, padding:"10px 22px", fontWeight:700, fontSize:15, textDecoration:"none" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          Follow us on Instagram
+        </a>
+      )}
+    </div>
+  );
+}
+
 // Renders *text* as italics (used for scientific names typed in the admin panel).
 function rich(text = "") {
   return String(text).split(/(\*[^*]+\*)/g).map((part, i) =>
@@ -237,7 +279,7 @@ export default function App({ content: C }) {
     partners: !C.partners.hidden,
     recognition: !C.recognition.hidden,
     media: !C.media.hidden && C.media.articles.length > 0,
-    socialVideos: !C.socialVideos.hidden && socialVideos.length > 0,
+    socialVideos: !C.socialVideos.hidden && (socialVideos.length > 0 || !!C.socialVideos.feedUrl),
     kids: !C.kids.hidden && kidsSlides.length > 0,
   };
   const [voted, setVoted] = useState(() => {
@@ -1076,6 +1118,7 @@ export default function App({ content: C }) {
         <div data-reveal style={{ width:"100%", maxWidth:1100, display:"flex", flexWrap:"wrap", justifyContent:"center", gap: fluid(32, 48) }}>
           {socialVideos.map((v, i) => <SocialVideoCard key={i + v.src} v={v} instagramUrl={C.hero.instagramUrl} />)}
         </div>
+        <InstagramFeed feedUrl={C.socialVideos.feedUrl} profileUrl={C.hero.instagramUrl} title={C.socialVideos.feedTitle} max={Number(C.socialVideos.feedCount) || 6} />
       </div>}
 
       {/* ── KIDS ACTIVITY ── */}

@@ -141,6 +141,9 @@ export const SECTIONS = {
       t("tag", "תגית"),
       t("title", "כותרת"),
       ta("text", "טקסט"),
+      t("feedTitle", "כותרת פיד האינסטגרם"),
+      url("feedUrl", "קישור לפיד האינסטגרם (Behold)", { hint: "הכתובת מ-Behold.so, למשל https://feeds.behold.so/XXXX. פוסטים חדשים מאינסטגרם יופיעו באתר אוטומטית. ריק = בלי פיד." }),
+      { key: "feedCount", label: "כמה פוסטים להציג", type: "number", group: "links", step: 1 },
       list("videos", "סרטונים", [
         t("title", "כותרת"),
         t("note", "פרטים (פורמט, אורך)"),
