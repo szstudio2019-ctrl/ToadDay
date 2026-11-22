@@ -113,7 +113,7 @@ function AlphaVideo({ src, style }) {
   );
 }
 
-function SocialVideoCard({ v }) {
+function SocialVideoCard({ v, instagramUrl }) {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
 
@@ -134,7 +134,8 @@ function SocialVideoCard({ v }) {
   return (
     <div style={{ width:"min(100%, 300px)", display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
       <div style={{ position:"relative", width:"100%", aspectRatio:"9 / 16", borderRadius:28, overflow:"hidden", background:"#0b2a0b", border:"1px solid rgba(0,110,28,0.25)", boxShadow:"0 30px 50px -20px rgba(0,60,15,0.45)" }}>
-        <video ref={videoRef} src={v.src} poster={v.poster} muted loop playsInline preload="metadata" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+        <video ref={videoRef} src={v.src} poster={v.poster} muted loop playsInline preload="metadata"
+          controlsList="nodownload" disablePictureInPicture onContextMenu={(e) => e.preventDefault()} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
         <button onClick={() => setMuted((m) => !m)} aria-label={muted ? "Turn sound on" : "Turn sound off"}
           style={{ position:"absolute", right:14, bottom:14, width:44, height:44, borderRadius:9999, border:"1px solid rgba(255,255,255,0.3)", background:"rgba(0,90,24,0.55)", backdropFilter:"blur(10px)", WebkitBackdropFilter:"blur(10px)", color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
           {muted ? (
@@ -147,10 +148,12 @@ function SocialVideoCard({ v }) {
       <div style={{ textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center", gap:10 }}>
         <div style={{ fontWeight:700, fontSize:18, color:"#006E1C" }}>{v.title}</div>
         <div style={{ fontWeight:400, fontSize:15, color:"#3F4A3C" }}>{v.note}</div>
-        <a href={v.src} download style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#006E1C", color:"#fff", borderRadius:9999, padding:"10px 22px", fontWeight:700, fontSize:15, textDecoration:"none" }}>
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M5 9l5 5 5-5" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          Download video
-        </a>
+        {(v.url || instagramUrl) && (
+          <a href={v.url || instagramUrl} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#006E1C", color:"#fff", borderRadius:9999, padding:"10px 22px", fontWeight:700, fontSize:15, textDecoration:"none" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            {v.linkText || "View on Instagram"}
+          </a>
+        )}
       </div>
     </div>
   );
@@ -1071,7 +1074,7 @@ export default function App({ content: C }) {
           <p style={{ fontWeight:400, fontSize:19, lineHeight:"1.6", color:"#3F4A3C", margin:0, maxWidth:640 }}>{C.socialVideos.text}</p>
         </div>
         <div data-reveal style={{ width:"100%", maxWidth:1100, display:"flex", flexWrap:"wrap", justifyContent:"center", gap: fluid(32, 48) }}>
-          {socialVideos.map((v, i) => <SocialVideoCard key={i + v.src} v={v} />)}
+          {socialVideos.map((v, i) => <SocialVideoCard key={i + v.src} v={v} instagramUrl={C.hero.instagramUrl} />)}
         </div>
       </div>}
 

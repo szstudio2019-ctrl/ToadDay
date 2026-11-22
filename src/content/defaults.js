@@ -160,9 +160,9 @@ export const DEFAULT_CONTENT = {
     hidden: false,
     tag: "Share the Toad",
     title: "Videos for Social Media",
-    text: "Ready-to-post story videos. Download and share them to help spread the word about International Toad Day.",
+    text: "Watch our story videos and follow us on Instagram to help spread the word about International Toad Day.",
     videos: [
-      { title: "Meet the Toad — Story", note: "9:16 · 32 seconds · with music", src: "/social/toad-story.mp4", poster: "/social/toad-story-poster.jpg" },
+      { title: "Meet the Toad — Story", note: "9:16 · 32 seconds · with music", src: "/social/toad-story.mp4", poster: "/social/toad-story-poster.jpg", url: "", linkText: "View on Instagram" },
     ],
   },
 
