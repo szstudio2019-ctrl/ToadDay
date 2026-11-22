@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
+
+# large work files (over GitHub limit / AE autosaves)
+*.mov
+*_AME/
+Adobe After Effects Auto-Save/
