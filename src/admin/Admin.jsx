@@ -32,15 +32,11 @@ const I = {
 export default function Admin() {
   const [session, setSession] = useState(undefined);
   const [isAdmin, setIsAdmin] = useState(null);
-  const [recovery, setRecovery] = useState(false);
 
   useEffect(() => {
     document.title = "מערכת ניהול – International Toad Day";
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-      if (event === "PASSWORD_RECOVERY") setRecovery(true);
-      setSession(s);
-    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -52,7 +48,6 @@ export default function Admin() {
   // Dev-only look at the dashboard without signing in (saving is still blocked by RLS).
   if (import.meta.env.DEV && new URLSearchParams(window.location.search).has("demo")) return <Dashboard email="demo@local" />;
   if (session === undefined) return <div className="adm-center"><div className="adm-spinner" /></div>;
-  if (recovery && session) return <SetPassword onDone={() => setRecovery(false)} />;
   if (!session) return <Login />;
   if (isAdmin === null) return <div className="adm-center"><div className="adm-spinner" /></div>;
   if (!isAdmin) {
@@ -72,23 +67,22 @@ export default function Admin() {
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
   const [msg, setMsg] = useState(null);
 
+  // Passwordless: Supabase emails a one-time sign-in link back to /admin.
+  // Only emails listed in public.admins can actually save anything (RLS).
   const submit = async (e) => {
     e.preventDefault();
     setBusy(true); setMsg(null);
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: `${window.location.origin}/admin` },
+    });
     setBusy(false);
-    if (error) setMsg({ err: true, text: "אימייל או סיסמה שגויים" });
-  };
-  const forgot = async () => {
-    if (!email.trim()) { setMsg({ err: true, text: "כתבו את האימייל ואז לחצו על 'שכחתי סיסמה'" }); return; }
-    setBusy(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/admin` });
-    setBusy(false);
-    setMsg(error ? { err: true, text: "שליחת המייל נכשלה. נסו שוב מאוחר יותר." } : { text: "נשלח מייל עם קישור לאיפוס הסיסמה." });
+    if (error) setMsg(/rate|seconds/i.test(error.message) ? "נשלחו יותר מדי מיילים. נסו שוב בעוד כמה דקות." : "שליחת המייל נכשלה. נסו שוב.");
+    else setSent(true);
   };
 
   return (
@@ -96,42 +90,21 @@ function Login() {
       <form className="adm-login" onSubmit={submit}>
         <div className="adm-login-logo">{I.toad}</div>
         <h1><span>מערכת ניהול</span><br />International Toad Day</h1>
-        <label className="adm-field">
-          <span>אימייל</span>
-          <input type="email" dir="ltr" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </label>
-        <label className="adm-field">
-          <span>סיסמה</span>
-          <input type="password" dir="ltr" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </label>
-        {msg && <div className={msg.err ? "adm-msg adm-msg-err" : "adm-msg"}>{msg.text}</div>}
-        <button className="adm-btn adm-btn-primary adm-btn-block" disabled={busy}>{busy ? "רגע…" : "כניסה"}</button>
-        <button type="button" className="adm-link" onClick={forgot} disabled={busy}>שכחתי סיסמה</button>
-      </form>
-    </div>
-  );
-}
-
-function SetPassword({ onDone }) {
-  const [pw, setPw] = useState("");
-  const [msg, setMsg] = useState(null);
-  const submit = async (e) => {
-    e.preventDefault();
-    if (pw.length < 8) { setMsg("לפחות 8 תווים"); return; }
-    const { error } = await supabase.auth.updateUser({ password: pw });
-    if (error) setMsg("העדכון נכשל: " + error.message); else onDone();
-  };
-  return (
-    <div className="adm-center adm-login-bg">
-      <form className="adm-login" onSubmit={submit}>
-        <div className="adm-login-logo">{I.toad}</div>
-        <h1>בחירת סיסמה חדשה</h1>
-        <label className="adm-field">
-          <span>סיסמה חדשה</span>
-          <input type="password" dir="ltr" autoComplete="new-password" value={pw} onChange={(e) => setPw(e.target.value)} />
-        </label>
-        {msg && <div className="adm-msg adm-msg-err">{msg}</div>}
-        <button className="adm-btn adm-btn-primary adm-btn-block">שמירה</button>
+        {sent ? (
+          <>
+            <div className="adm-msg">שלחנו קישור כניסה אל <b dir="ltr">{email.trim()}</b>.<br />פתחו את המייל ולחצו על הקישור כדי להיכנס לפנל.</div>
+            <button type="button" className="adm-link" onClick={() => setSent(false)}>שליחה לאימייל אחר</button>
+          </>
+        ) : (
+          <>
+            <label className="adm-field">
+              <span>אימייל</span>
+              <input type="email" dir="ltr" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </label>
+            {msg && <div className="adm-msg adm-msg-err">{msg}</div>}
+            <button className="adm-btn adm-btn-primary adm-btn-block" disabled={busy}>{busy ? "שולחים…" : "שלחו לי קישור כניסה"}</button>
+          </>
+        )}
       </form>
     </div>
   );
